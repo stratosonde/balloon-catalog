@@ -1,0 +1,7 @@
+# Treat binary files properly
+*.mp4 binary
+*.png binary
+*.gif binary
+balloons/*/viewer/strain_frames.json filter=lfs diff=lfs merge=lfs -text
+balloons/*/viewer/tracks.json filter=lfs diff=lfs merge=lfs -text
+balloons/*/data/inflator_log.csv filter=lfs diff=lfs merge=lfs -text

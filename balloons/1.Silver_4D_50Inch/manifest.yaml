@@ -1,0 +1,59 @@
+title: "Silver 4-Gore 50\" Mylar — DIC Speckle Test"
+balloon:
+  brand: ''
+  model: ''
+  size_nominal: ''
+  color: ''
+  material: ''
+  material_thickness_um: 26
+  weight_g: null
+  dimensions_uninflated_mm: null
+  cost_usd: null
+  lot: ''
+  supplier: ''
+  url: ''
+test:
+  date: '2026-03-20'
+  location: ''
+  temperature_c: null
+  humidity_pct: null
+  protocol: ''
+  pressures_psi:
+  - 0.09
+  - 0.15
+  - 0.2
+  - 0.19
+  - 0.23
+  - 0.29
+  - 0.33
+  - 0.37
+  - 0.42
+  - 0.47
+  - 0.51
+  - 0.56
+  hold_duration_s: null
+  notes: ''
+results:
+  burst_pressure_psi: null
+  max_pressure_psi: 0.56
+  max_diameter_in: 34.76
+  total_duration_s: 7457.0
+  plateaus_detected: 12
+media:
+  images:
+  - file: images/scale_weight.jpg
+    caption: "Folded balloon on scale — ~24g"
+  - file: images/inflated_speckle.jpg
+    caption: "Inflated balloon with DIC speckle pattern and tape measure"
+  - file: images/packaging.jpg
+    caption: "Balloon packaging — Silver 4D Foil, 50 inch"
+  burst_video: null
+  burst_video_fps: null
+conclusions: 'TODO: Add your observations and conclusions.
+
+  '
+methods: 'Stereo vision with dual cameras. FoundationStereo depth estimation. Blob detection on rectified
+  images. Kabsch alignment for rigid-body removal. Green-Lagrange strain via Delaunay triangulation.
+
+  '
+tags: []
