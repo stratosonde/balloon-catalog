@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎈 Balloon Strain Lab</title>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="app">
+
+    <!-- ── Header ───────────────────────────────────────────── -->
+    <header id="site-header">
+        <div class="header-left">
+            <h1>🎈 Balloon Strain Lab</h1>
+        </div>
+        <div class="header-center">
+            <select id="balloon-select" title="Select a balloon test">
+                <option value="">— Select a test —</option>
+            </select>
+        </div>
+        <div class="header-right">
+            <span class="muted" id="header-stats"></span>
+        </div>
+    </header>
+
+    <!-- ── Welcome (no balloon selected) ────────────────────── -->
+    <div id="welcome-panel">
+        <div class="welcome-content">
+            <h2>🎈 Balloon DIC Strain Analysis</h2>
+            <p><abbr title="Digital Image Correlation — an optical method that tracks surface patterns (speckles or markers) to measure full-field deformation without contact sensors">DIC</abbr> strain measurement of inflating mylar balloons.<br>
+            Select a test from the dropdown above.</p>
+            <div class="welcome-stats" id="welcome-stats"></div>
+        </div>
+    </div>
+
+    <!-- ── Detail (balloon selected) ────────────────────────── -->
+    <div id="detail-panel" class="hidden">
+
+        <!-- Balloon title bar -->
+        <div class="detail-header">
+            <h2 id="detail-title"></h2>
+            <div class="detail-meta" id="detail-meta"></div>
+        </div>
+
+        <!-- Photo gallery (populated from manifest media.images) -->
+        <div id="photo-gallery" class="photo-gallery hidden"></div>
+
+        <!-- ═══ SECTION A: DIC Field Viewer ═══════════════════ -->
+        <section class="field-section">
+            <!-- Controls bar -->
+            <div class="field-controls">
+                <label title="Which strain quantity to display on the heat map">Metric:
+                    <select id="sel-metric">
+                        <option value="areal" selected title="Fractional area change of each surface element. Positive = expansion, negative = compression.">Areal ε</option>
+                        <option value="e1" title="Largest principal strain — the direction of maximum stretching on the surface.">ε₁ Major</option>
+                        <option value="e2" title="Smallest principal strain — perpendicular to ε₁. For uniform inflation, ε₁ ≈ ε₂.">ε₂ Minor</option>
+                        <option value="shear" title="(ε₁ − ε₂) / 2 — measures how anisotropic the deformation is. Zero = perfectly uniform stretching.">Max Shear</option>
+                    </select>
+                    <i class="help-icon" aria-label="Help">?<span class="help-text"><strong>Strain metrics:</strong><br>
+                        <strong>Areal ε</strong> — fractional area change (det(F) − 1). Most intuitive for balloon inflation.<br>
+                        <strong>ε₁ Major</strong> — largest principal strain direction.<br>
+                        <strong>ε₂ Minor</strong> — smallest principal strain (perpendicular to ε₁).<br>
+                        <strong>Max Shear</strong> — (ε₁−ε₂)/2. High values = non-uniform stretching.
+                    </span></i>
+                </label>
+                <label title="Transparency of the strain color overlay on the camera image">Opacity:
+                    <input type="range" id="rng-opacity" min="0" max="100" value="40" style="width:80px">
+                </label>
+                <label title="Show the Delaunay triangulation mesh used for strain computation"><input type="checkbox" id="chk-grid"> Grid</label>
+                <label title="Show/hide the camera image behind the strain overlay"><input type="checkbox" id="chk-photo" checked> Photo</label>
+                <span class="field-readout" id="field-readout"></span>
+            </div>
+
+            <!-- Live readout cards -->
+            <div id="info-cards" class="info-cards">
+                <div class="info-card">
+                    <span class="info-label">Pressure</span>
+                    <span class="info-value" id="card-pressure">—</span>
+                    <span class="info-unit">PSI</span>
+                </div>
+                <div class="info-card">
+                    <span class="info-label">Areal Strain</span>
+                    <span class="info-value" id="card-areal">—</span>
+                    <span class="info-unit">%</span>
+                </div>
+                <div class="info-card">
+                    <span class="info-label">ε₁ Major</span>
+                    <span class="info-value" id="card-e1">—</span>
+                    <span class="info-unit">%</span>
+                </div>
+                <div class="info-card">
+                    <span class="info-label">ε₂ Minor</span>
+                    <span class="info-value" id="card-e2">—</span>
+                    <span class="info-unit">%</span>
+                </div>
+                <div class="info-card">
+                    <span class="info-label">Diameter</span>
+                    <span class="info-value" id="card-diameter">—</span>
+                    <span class="info-unit">in</span>
+                </div>
+                <div class="info-card">
+                    <span class="info-label">Hoop Stress</span>
+                    <span class="info-value" id="card-stress">—</span>
+                    <span class="info-unit" id="card-stress-unit">MPa</span>
+                </div>
+                <div class="info-card">
+                    <span class="info-label">Elapsed</span>
+                    <span class="info-value" id="card-elapsed">—</span>
+                    <span class="info-unit"></span>
+                </div>
+                <div class="info-card">
+                    <span class="info-label">DIC Subsets</span>
+                    <span class="info-value" id="card-dots">—</span>
+                    <span class="info-unit"></span>
+                </div>
+            </div>
+
+            <!-- The canvas viewer -->
+            <div id="field-container">
+                <canvas id="field-bg-canvas" class="field-bg"></canvas>
+                <video id="field-video" muted preload="auto" style="position:fixed;left:-9999px;top:0;opacity:0;pointer-events:none"></video>
+                <canvas id="field-canvas"></canvas>
+                <!-- Colorbar -->
+                <div id="colorbar" class="colorbar" title="Strain color scale: red = tension (expansion), blue = compression, white = zero strain. Range auto-scales to P5/P95 of current frame.">
+                    <canvas id="colorbar-canvas" width="20" height="200"></canvas>
+                    <span class="cb-label cb-high" id="cb-high">+5%</span>
+                    <span class="cb-label cb-mid" id="cb-mid">0%</span>
+                    <span class="cb-label cb-low" id="cb-low">-5%</span>
+                </div>
+                <!-- Hover tooltip -->
+                <div id="hover-tip" class="hover-tip hidden"></div>
+            </div>
+
+            <!-- Timeline scrubber -->
+            <div class="timeline-bar">
+                <button id="btn-play" class="tl-btn" title="Play/Pause">▶</button>
+                <button id="btn-prev" class="tl-btn" title="Previous">◀</button>
+                <input type="range" id="timeline-slider" min="0" max="0" value="0">
+                <button id="btn-next" class="tl-btn" title="Next">▶</button>
+                <div class="tl-readout">
+                    <span id="ro-frame" title="Current frame / total frames in this test">0 / 0</span>
+                    <span id="ro-pressure" title="Internal balloon pressure in pounds per square inch">— PSI</span>
+                    <span id="ro-strain" title="Median areal strain across all DIC subsets in this frame">ε: —</span>
+                    <span id="ro-time" title="Elapsed time since start of test">0:00</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ SECTION B: Analysis Charts ════════════════════ -->
+        <section class="charts-section">
+            <!-- Strain History — always visible, shows global or selected point -->
+            <div class="chart-card chart-card-wide">
+                <div class="chart-card-header">
+                    <h3 id="strain-history-title">Strain History
+                        <i class="help-icon">?<span class="help-text">Areal strain over time for all DIC subsets. Blue line = median, shaded band = P10–P90 range (10th to 90th percentile). Click a dot on the heat map to overlay that point's individual strain history.</span></i>
+                    </h3>
+                    <span id="strain-history-subtitle" class="muted">Global median · click a <abbr title="A small image patch tracked by DIC across all frames to measure local deformation">subset</abbr> to overlay</span>
+                    <button id="btn-clear-selection" class="tl-btn hidden" title="Clear selection">✕</button>
+                </div>
+                <div id="plot-strain-history" class="plot-container" style="height:280px"></div>
+            </div>
+
+            <!-- Circumference + Pressure vs Time — synced with video -->
+            <div class="chart-card chart-card-wide">
+                <h3>Circumference &amp; Pressure vs Time
+                    <i class="help-icon">?<span class="help-text">Balloon circumference (inches, from inflator sensor) and internal pressure (PSI) over time. Syncs with the video timeline above.</span></i>
+                </h3>
+                <div id="plot-circ-pressure" class="plot-container" style="height:240px"></div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <h3>Stress–Strain (<abbr title="Digital Image Correlation">DIC</abbr>)
+                        <i class="help-icon">?<span class="help-text"><strong>Hoop stress vs strain.</strong> Stress = P×r/(2t) where P = pressure, r = radius, t = wall thickness. Shows how the balloon material responds to loading. The dashed yellow curve is a saturating exponential fit σ = A·(1−e^(−B·ε)) — stress rises steeply then plateaus toward A.</span></i>
+                    </h3>
+                    <div id="plot-stress-strain" class="plot-container"></div>
+                </div>
+                <div class="chart-card">
+                    <h3>Biaxiality (ε₁ vs ε₂)
+                        <i class="help-icon">?<span class="help-text"><strong>Major vs minor principal strain.</strong> Points on the diagonal mean equibiaxial stretching (uniform in all directions). Points off-diagonal mean the balloon is stretching more in one direction. Color = pressure.</span></i>
+                    </h3>
+                    <div id="plot-biaxiality" class="plot-container"></div>
+                </div>
+                <div class="chart-card">
+                    <h3>Stress vs Time
+                        <i class="help-icon">?<span class="help-text"><strong>Hoop membrane stress</strong> (σ = P×r/2t) from the inflator sensor data over time. If wall thickness is unknown, shows membrane tension (N/m) instead of stress (MPa).</span></i>
+                    </h3>
+                    <div id="plot-stress-time" class="plot-container"></div>
+                </div>
+                <div class="chart-card">
+                    <h3>Strain vs Time
+                        <i class="help-icon">?<span class="help-text"><strong>Engineering strain</strong> from the inflator's diameter sensor: (d − d₀) / d₀ × 100%. This is an independent measurement from the diameter tape, not from DIC.</span></i>
+                    </h3>
+                    <div id="plot-strain-time" class="plot-container"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ SECTION D: Test Details (collapsible) ═════════ -->
+        <section class="details-section">
+            <button id="btn-details-toggle" class="collapse-btn">▼ Test Details & Data</button>
+            <div id="details-body" class="details-body hidden">
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Balloon Specs</h3>
+                        <table class="kv-table" id="specs-table"></table>
+                    </div>
+                    <div class="card">
+                        <h3>Test Results</h3>
+                        <table class="kv-table" id="results-table"></table>
+                    </div>
+                    <div class="card">
+                        <h3>Plateau Summary
+                            <i class="help-icon">?<span class="help-text"><strong>Pressure plateaus</strong> are constant-pressure holding periods detected automatically from the pressure timeseries. For each plateau: mean pressure, diameter, and <strong>creep rate</strong> — the slow continuing deformation under constant load (measured as strain change per second).</span></i>
+                        </h3>
+                        <div id="plateau-table-wrap"></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Methods</h3>
+                    <p id="methods-text" class="muted"></p>
+                </div>
+                <div class="card">
+                    <h3>Downloads</h3>
+                    <div id="download-links" class="download-links"></div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<script src="js/catalog.js"></script>
+<script src="js/timeline.js"></script>
+<script src="js/strain-map.js"></script>
+<script src="js/plots.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

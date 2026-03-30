@@ -1,0 +1,142 @@
+{
+  "layout": {
+    "left_pattern": "rectified/left/{frame_id}.png",
+    "right_pattern": "rectified/right/{frame_id}.png",
+    "depth_pattern": "depth/{frame_id}/depth_meter.npy",
+    "confidence_pattern": null,
+    "metadata_file": "rectified/frame_metadata.json",
+    "calib_file": "rectified/calib.json",
+    "frame_id_field": "_rectified_index",
+    "frame_id_pad": 6
+  },
+  "detection": {
+    "mode": "blob",
+    "clahe_enabled": false,
+    "clahe_clip_limit": 3.0,
+    "clahe_grid_size": 8,
+    "blur_ksize": 0,
+    "blob_min_area": 20,
+    "blob_max_area": 1500,
+    "blob_min_circularity": 0.4,
+    "blob_min_convexity": 0.4,
+    "blob_min_inertia": 0.2,
+    "blob_color": "both",
+    "cc_block_size": 51,
+    "cc_c": 10,
+    "cc_min_area": 8,
+    "cc_max_area": 2000,
+    "cc_min_circularity": 0.3,
+    "roi": null,
+    "depth_filter_enabled": true,
+    "depth_filter_tolerance": 0.6,
+    "depth_filter_min_m": 0.1,
+    "depth_filter_max_m": 5.0,
+    "subpixel_method": "moments",
+    "subpixel_win": 5
+  },
+  "tracking": {
+    "max_gate_px": 30,
+    "max_gap_frames": 10,
+    "reanchor_interval": 50,
+    "reanchor_ransac_thresh": 5.0,
+    "min_track_length": 3
+  },
+  "lifting": {
+    "depth_is_meters": true,
+    "use_confidence": false,
+    "confidence_threshold": 0.5,
+    "min_depth_m": 0.05,
+    "max_depth_m": 10.0,
+    "sample_method": "bilinear"
+  },
+  "mesh": {
+    "reference_frame_id": null,
+    "reference_frame_mode": "first_plateau_midpoint",
+    "prune_long_edges": true,
+    "prune_factor": 2.5,
+    "method": "delaunay",
+    "knn_k": 6
+  },
+  "alignment": {
+    "enabled": true,
+    "method": "kabsch",
+    "min_points": 10,
+    "outlier_threshold_sigma": 3.0
+  },
+  "strain": {
+    "mode": "2d_uv",
+    "small_strain_approx": false,
+    "strain_floor": null
+  },
+  "plateaus": {
+    "auto_detect": true,
+    "dpdt_threshold": 0.005,
+    "min_hold_seconds": 120,
+    "settle_seconds": 60,
+    "smoothing_window": 11,
+    "manual_plateaus": []
+  },
+  "plotting": {
+    "dpi": 150,
+    "figsize": [
+      12,
+      6
+    ],
+    "strain_heatmap_frames": 0,
+    "strain_heatmap_gif": true,
+    "gif_fps": 15,
+    "gif_max_width": 800,
+    "debug_overlay_interval": 50
+  },
+  "template_tracking": {
+    "tracking_mode": "dic",
+    "lk_win_size": 21,
+    "lk_max_level": 4,
+    "lk_max_fb_error": 2.0,
+    "lk_min_eig_threshold": 0.0001,
+    "max_lost_frames": 10,
+    "fallback_blob": true,
+    "fallback_blob_radius": 20,
+    "template_size": 25,
+    "search_radius": 20,
+    "ncc_threshold": 0.35,
+    "ncc_good_threshold": 0.6,
+    "template_adapt_rate": 0.15,
+    "template_adapt_min_ncc": 0.5,
+    "subpixel_refine": true,
+    "multi_scale": false,
+    "multi_scale_range": [
+      0.85,
+      1.15
+    ],
+    "multi_scale_steps": 5
+  },
+  "dic_tracking": {
+    "subset_size": 31,
+    "step_size": 20,
+    "roi_mode": "mask",
+    "roi_radius_scale": 1.05,
+    "max_sigma": 0.4,
+    "max_iterations": 50,
+    "convergence_tol": 0.001,
+    "max_lost_frames": 8,
+    "update_reference": true,
+    "update_reference_interval": 30,
+    "prefilter": "clahe",
+    "interpolation": "bicubic",
+    "roi_mask_path": "/oracle_data/stereo/results/session_20260320_094619/dic_mask.png",
+    "coarse_search_radius": 45,
+    "lk_seed_win_size": 31,
+    "lk_seed_max_level": 4,
+    "clahe_for_lk": true,
+    "clahe_clip_limit": 3.0,
+    "clahe_tile_size": 16,
+    "outlier_disp_threshold": 25.0
+  },
+  "processing": {
+    "frame_stride": 1,
+    "hq_only": false,
+    "num_workers": 1,
+    "checkpoint_interval": 100
+  }
+}

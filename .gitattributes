@@ -1,0 +1,4 @@
+# Treat binary files properly
+*.mp4 binary
+*.png binary
+*.gif binary
