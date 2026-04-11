@@ -1,11 +1,11 @@
-title: "Silver 4-Gore 50\" Mylar — DIC Speckle Test"
+title: 1.Silver 4D 50Inch
 balloon:
   brand: ''
   model: ''
   size_nominal: ''
   color: ''
   material: ''
-  material_thickness_um: 26
+  material_thickness_um: null
   weight_g: null
   dimensions_uninflated_mm: null
   cost_usd: null
@@ -13,10 +13,10 @@ balloon:
   supplier: ''
   url: ''
 test:
-  date: '2026-03-20'
+  date: 1.Silver_4
   location: ''
-  temperature_c: null
-  humidity_pct: null
+  temperature_c: 19.7
+  humidity_pct: 22.2
   protocol: ''
   pressures_psi:
   - 0.09
@@ -39,14 +39,10 @@ results:
   max_diameter_in: 34.76
   total_duration_s: 7457.0
   plateaus_detected: 12
+  max_height_in: 35.13
+  station_pressure_hpa: 885.4
 media:
-  images:
-  - file: images/scale_weight.jpg
-    caption: "Folded balloon on scale — ~24g"
-  - file: images/inflated_speckle.jpg
-    caption: "Inflated balloon with DIC speckle pattern and tape measure"
-  - file: images/packaging.jpg
-    caption: "Balloon packaging — Silver 4D Foil, 50 inch"
+  images: []
   burst_video: null
   burst_video_fps: null
 conclusions: 'TODO: Add your observations and conclusions.

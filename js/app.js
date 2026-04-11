@@ -21,9 +21,14 @@ let _videoFps = 30;
 let _videoFrameMap = {};
 let _videoReady = false;
 
+let _tracksData = null;
+let _cloudCache = {};
+
 document.addEventListener('DOMContentLoaded', async () => {
     StrainMap.init('field-canvas', 'field-container');
     Timeline.setupControls();
+    Profiles.init('profile-container');
+    Profiles.setupControls();
     _setupFieldControls();
     _setupDetailsToggle();
     await Catalog.init(onBalloonSelected);
@@ -36,6 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function onBalloonSelected(balloon) {
     _currentBalloon = balloon;
     _frameCache = {};
+    _cloudCache = {};
     _prefetchQueue = [];
     _plateauRows = [];
     _videoReady = false;
@@ -51,15 +57,18 @@ async function onBalloonSelected(balloon) {
         balloon.test?.date].filter(Boolean).join(' · ');
     document.getElementById('detail-meta').textContent = meta;
 
-    const [frameIndex, meshData, plateauRows, inflatorRows] = await Promise.all([
+    const [frameIndex, meshData, tracksData, profilesData, plateauRows, inflatorRows] = await Promise.all([
         _fetchJson(`${basePath}/viewer/frame_index.json`),
         _fetchJson(`${basePath}/viewer/mesh.json`),
+        _fetchJson(`${basePath}/viewer/tracks.json`),
+        _fetchJson(`${basePath}/viewer/profiles.json`),
         _fetchCSV(`${basePath}/data/plateau_summary.csv`),
         _fetchCSV(`${basePath}/data/inflator_log.csv`),
     ]);
 
     _frameIndex = frameIndex;
     _meshData = meshData;
+    _tracksData = tracksData;
     _plateauRows = plateauRows || [];
     _inflatorRows = _filterPumpOff(inflatorRows || []);
     _thicknessUm = balloon.balloon?.material_thickness_um || null;
@@ -72,6 +81,16 @@ async function onBalloonSelected(balloon) {
     StrainMap.loadMesh(meshData, frameIndex.image_size);
     StrainMap.setOnHover(_onFieldHover);
     StrainMap.setOnSelect(_onFieldSelect);
+
+    // Initialize profile viewer with pre-computed depth profiles
+    Profiles.setSlug(slug);
+    if (profilesData) {
+        Profiles.loadProfiles(profilesData, tracksData, meshData);
+    } else if (tracksData && meshData) {
+        // Fallback for older exports without profiles.json
+        Profiles.loadTracks(tracksData, meshData);
+    }
+    Profiles.updateAllLabels();
 
     Timeline.load(frameIndex);
     Timeline.onChange(async (idx, frameEntry) => {
@@ -131,6 +150,17 @@ async function _loadAndRenderFrame(frameEntry) {
     if (!frameData || !frameData.dots) return;
 
     StrainMap.renderFrame(frameData.dots);
+
+    // Fetch stereo point cloud for this frame (non-blocking)
+    let cloudData = _cloudCache[fid];
+    if (cloudData === undefined) {
+        cloudData = await _fetchJson(`balloons/${slug}/viewer/clouds/${fid}.json`);
+        _cloudCache[fid] = cloudData; // null = tried and failed (won't retry)
+    }
+    Profiles.setCloud(cloudData);
+
+    // Update 3D profile slices with current frame's positions + strain
+    Profiles.renderFrame(fid, frameData.dots);
 
     const idx = Timeline.getIndex();
     _startPrefetch(idx + 1, 10);
@@ -249,11 +279,21 @@ async function _doPrefetch(slug) {
     _prefetching = true;
     while (_prefetchQueue.length > 0) {
         const fid = _prefetchQueue.shift();
-        if (_frameCache[fid]) continue;
-        try {
-            const d = await _fetchJson(`balloons/${slug}/viewer/frames/${fid}.json`);
-            if (d) _frameCache[fid] = d;
-        } catch {}
+        // Prefetch strain frame + cloud in parallel
+        const promises = [];
+        if (!_frameCache[fid]) {
+            promises.push(
+                _fetchJson(`balloons/${slug}/viewer/frames/${fid}.json`)
+                    .then(d => { if (d) _frameCache[fid] = d; })
+            );
+        }
+        if (_cloudCache[fid] === undefined) {
+            promises.push(
+                _fetchJson(`balloons/${slug}/viewer/clouds/${fid}.json`)
+                    .then(d => { _cloudCache[fid] = d; })
+            );
+        }
+        try { await Promise.all(promises); } catch {}
     }
     _prefetching = false;
 }

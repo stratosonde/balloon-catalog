@@ -20,6 +20,7 @@ const StrainMap = (() => {
     let _selectedDotId = null;
     let _onSelect = null;    // callback(dotId)
     let _onHover = null;     // callback(dotId, x, y) or callback(null)
+    let _sliceLines = null;  // {hLineV: pixelV, vLineU: pixelU} or null
 
     // RdBu diverging colormap (blue = compression, red = tension)
     const CMAP = [
@@ -248,6 +249,92 @@ const StrainMap = (() => {
             _ctx.fillText(`#${_selectedDotId}`, sel.sx + 10, sel.sy - 4);
         }
 
+        // ── Draw slice indicator lines + thickness bands ─────
+        if (_sliceLines) {
+            // Horizontal band + line (Y slice → circumference panel)
+            if (_sliceLines.hLineV != null) {
+                const sy = offsetY + _sliceLines.hLineV * scaleY;
+                const thick = (_sliceLines.hThickV || 0) * scaleY;
+
+                // Shaded thickness band
+                if (thick > 0) {
+                    _ctx.globalAlpha = 0.15;
+                    _ctx.fillStyle = '#22d3ee';
+                    _ctx.fillRect(offsetX, sy - thick, renderW, thick * 2);
+                    // Band edges
+                    _ctx.globalAlpha = 0.4;
+                    _ctx.strokeStyle = '#22d3ee';
+                    _ctx.lineWidth = 0.5;
+                    _ctx.setLineDash([]);
+                    _ctx.beginPath();
+                    _ctx.moveTo(offsetX, sy - thick); _ctx.lineTo(offsetX + renderW, sy - thick);
+                    _ctx.moveTo(offsetX, sy + thick); _ctx.lineTo(offsetX + renderW, sy + thick);
+                    _ctx.stroke();
+                }
+
+                // Center dashed line
+                _ctx.globalAlpha = 0.8;
+                _ctx.strokeStyle = '#22d3ee';
+                _ctx.lineWidth = 1;
+                _ctx.setLineDash([6, 4]);
+                _ctx.beginPath();
+                _ctx.moveTo(offsetX, sy);
+                _ctx.lineTo(offsetX + renderW, sy);
+                _ctx.stroke();
+
+                // Label
+                _ctx.setLineDash([]);
+                _ctx.font = '9px JetBrains Mono, monospace';
+                _ctx.fillStyle = '#22d3ee';
+                _ctx.globalAlpha = 0.9;
+                _ctx.textAlign = 'left';
+                _ctx.fillText('Y slice', offsetX + 4, sy - (thick > 4 ? thick + 2 : 4));
+            }
+
+            // Vertical band + line (X slice → vertical panel)
+            if (_sliceLines.vLineU != null) {
+                const sx = offsetX + _sliceLines.vLineU * scaleX;
+                const thick = (_sliceLines.vThickU || 0) * scaleX;
+
+                // Shaded thickness band
+                if (thick > 0) {
+                    _ctx.globalAlpha = 0.15;
+                    _ctx.fillStyle = '#a78bfa';
+                    _ctx.fillRect(sx - thick, offsetY, thick * 2, renderH);
+                    // Band edges
+                    _ctx.globalAlpha = 0.4;
+                    _ctx.strokeStyle = '#a78bfa';
+                    _ctx.lineWidth = 0.5;
+                    _ctx.setLineDash([]);
+                    _ctx.beginPath();
+                    _ctx.moveTo(sx - thick, offsetY); _ctx.lineTo(sx - thick, offsetY + renderH);
+                    _ctx.moveTo(sx + thick, offsetY); _ctx.lineTo(sx + thick, offsetY + renderH);
+                    _ctx.stroke();
+                }
+
+                // Center dashed line
+                _ctx.globalAlpha = 0.8;
+                _ctx.strokeStyle = '#a78bfa';
+                _ctx.lineWidth = 1;
+                _ctx.setLineDash([6, 4]);
+                _ctx.beginPath();
+                _ctx.moveTo(sx, offsetY);
+                _ctx.lineTo(sx, offsetY + renderH);
+                _ctx.stroke();
+
+                // Label
+                _ctx.setLineDash([]);
+                _ctx.font = '9px JetBrains Mono, monospace';
+                _ctx.fillStyle = '#a78bfa';
+                _ctx.globalAlpha = 0.9;
+                _ctx.textAlign = 'left';
+                _ctx.fillText('X slice', sx + (thick > 4 ? thick + 2 : 4), offsetY + 12);
+            }
+
+            _ctx.globalAlpha = 1.0;
+            _ctx.setLineDash([]);
+        }
+
         // Store for hit testing
         _canvas._dotPositions = dotPositions;
         _canvas._mapping = { offsetX, offsetY, scaleX, scaleY };
@@ -354,10 +441,20 @@ const StrainMap = (() => {
         if (_currentDots) _draw();
     }
 
+    /**
+     * Set slice indicator lines on the strain heatmap.
+     * @param {Object|null} lines — {hLineV: pixelV, vLineU: pixelU} in image pixel coords, or null to clear
+     */
+    function setSliceLines(lines) {
+        _sliceLines = lines;
+        if (_currentDots) _draw();
+    }
+
     return {
         init, loadMesh, renderFrame,
         setMetric, setOpacity, setShowGrid,
         setOnSelect, setOnHover, selectDot, getSelectedDotId,
+        setSliceLines,
     };
 })();
 
