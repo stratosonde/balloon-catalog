@@ -13,3 +13,7 @@ Thumbs.db
 
 # Build artifacts
 *.egg-info/
+
+# Generated plot frames (intermediate artifacts)
+**/plots/strain_heatmap/
+

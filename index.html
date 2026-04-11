@@ -149,7 +149,54 @@
             </div>
         </section>
 
-        <!-- ═══ SECTION B: Analysis Charts ════════════════════ -->
+        <!-- ═══ SECTION B: Profile Slices ═════════════════════ -->
+        <section class="profile-section" id="profile-section">
+            <div class="chart-card chart-card-wide">
+                <div class="chart-card-header">
+                    <h3>3D Profile Slices
+                        <i class="help-icon">?<span class="help-text"><strong>Cross-section slices</strong> through the balloon's 3D point cloud.<br>
+                        <strong>Left panel — Circumference (X vs Z):</strong> equator slice showing how the balloon bulges toward the camera across its width.<br>
+                        <strong>Right panel — Vertical (Z vs Y):</strong> center slice from top to bottom.<br>
+                        Ghost lines show past frames (blue→red = early→late). Use Trail controls to adjust persistence.</span></i>
+                    </h3>
+                </div>
+                <div class="profile-controls">
+                    <label title="Horizontal position of the vertical slab (right panel)">X slice
+                        <i class="help-icon">?<span class="help-text"><strong>X slice position</strong> — controls the 🟣 purple vertical slab on the strain image and the <strong>right panel</strong> (Z vs Y).<br>
+                        Drag to scan left/right across the balloon's width. The right panel shows the depth cross-section at this horizontal position.</span></i>
+                        <input type="range" id="profile-x" min="0" max="100" value="50" style="width:100px"> <span id="profile-x-val" class="muted">—</span></label>
+                    <label title="Vertical position of the circumference slab (left panel)">Y slice
+                        <i class="help-icon">?<span class="help-text"><strong>Y slice position</strong> — controls the 🔵 cyan horizontal slab on the strain image and the <strong>left panel</strong> (X vs Z).<br>
+                        Drag to scan up/down the balloon. The left panel shows how the balloon bulges toward the camera at this height.</span></i>
+                        <input type="range" id="profile-y" min="0" max="100" value="50" style="width:100px"> <span id="profile-y-val" class="muted">—</span></label>
+                    <label title="Depth axis (camera line-of-sight) — shown in both panels, not independently sliceable" style="opacity:0.4">Z
+                        <i class="help-icon">?<span class="help-text"><strong>Z (depth axis)</strong> — the camera line-of-sight direction. Shown in both profile panels but not independently sliceable. Depth values represent distance from the camera.</span></i>
+                        <input type="range" id="profile-z" min="0" max="100" value="50" style="width:60px" disabled> <span id="profile-z-val" class="muted">—</span></label>
+                    <label title="Half-thickness of the slicing slab in mm">Slab ±
+                        <i class="help-icon">?<span class="help-text"><strong>Slab half-thickness</strong> (mm) — cloud points within ±this distance from the slice center are included in the cross-section.<br>
+                        <strong>Thicker</strong> = more points, smoother profile but less precise spatial resolution.<br>
+                        <strong>Thinner</strong> = sharper slice but sparser, noisier profile.</span></i>
+                        <input type="range" id="profile-thickness" min="5" max="200" value="50" style="width:80px"> <span id="profile-thickness-val" class="muted">—</span></label>
+                    <span style="border-left:1px solid var(--border);height:20px;margin:0 4px"></span>
+                    <label title="Show colored ghost outlines of past frames"><input type="checkbox" id="chk-trail"> Trail
+                        <i class="help-icon">?<span class="help-text"><strong>Trail mode</strong> — overlay colored ghost lines from past frames to visualize how the balloon inflates over time.<br>
+                        Colors fade from <span style="color:#3b82f6">blue</span> (early) → <span style="color:#f87171">red</span> (late). Ghosts are sliced from the pre-computed depth grid for fast rendering.</span></i>
+                    </label>
+                    <label title="Number of past ghost frames to display">Frames
+                        <i class="help-icon">?<span class="help-text"><strong>Ghost frame count</strong> — how many past frames to keep as ghost outlines. "All" shows the complete inflation history from the first frame.</span></i>
+                        <input type="range" id="profile-trail-count" min="1" max="200" value="200" style="width:60px"> <span id="profile-trail-count-val" class="muted">All</span></label>
+                    <label title="Sample every Nth frame for ghosts — reduces clutter for long tests">Step
+                        <i class="help-icon">?<span class="help-text"><strong>Ghost frame step</strong> — sample every Nth frame for ghost outlines.<br>
+                        Step=1 shows every frame. Step=5 shows every 5th frame, reducing clutter for long inflation tests.</span></i>
+                        <input type="range" id="profile-trail-step" min="1" max="10" value="1" style="width:50px"> <span id="profile-trail-step-val" class="muted">1</span></label>
+                </div>
+                <div id="profile-container">
+                    <div class="profile-plot" style="width:100%;height:500px"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ SECTION C: Analysis Charts ════════════════════ -->
         <section class="charts-section">
             <!-- Strain History — always visible, shows global or selected point -->
             <div class="chart-card chart-card-wide">
@@ -237,6 +284,7 @@
 <script src="js/timeline.js"></script>
 <script src="js/strain-map.js"></script>
 <script src="js/plots.js"></script>
+<script src="js/profiles.js"></script>
 <script src="js/app.js"></script>
 
 </body>

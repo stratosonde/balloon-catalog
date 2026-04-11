@@ -1,16 +1,16 @@
 {
-  "count": 1,
+  "count": 2,
   "balloons": [
     {
       "slug": "1.Silver_4D_50Inch",
-      "title": "Silver 4-Gore 50\" Mylar \u2014 DIC Speckle Test",
+      "title": "1.Silver 4D 50Inch",
       "balloon": {
         "brand": "",
         "model": "",
         "size_nominal": "",
         "color": "",
         "material": "",
-        "material_thickness_um": 26,
+        "material_thickness_um": null,
         "weight_g": null,
         "dimensions_uninflated_mm": null,
         "cost_usd": null,
@@ -19,10 +19,10 @@
         "url": ""
       },
       "test": {
-        "date": "2026-03-20",
+        "date": "1.Silver_4",
         "location": "",
-        "temperature_c": null,
-        "humidity_pct": null,
+        "temperature_c": 19.7,
+        "humidity_pct": 22.2,
         "protocol": "",
         "pressures_psi": [
           0.09,
@@ -46,25 +46,75 @@
         "max_pressure_psi": 0.56,
         "max_diameter_in": 34.76,
         "total_duration_s": 7457.0,
-        "plateaus_detected": 12
+        "plateaus_detected": 12,
+        "max_height_in": 35.13,
+        "station_pressure_hpa": 885.4
       },
       "methods": "Stereo vision with dual cameras. FoundationStereo depth estimation. Blob detection on rectified images. Kabsch alignment for rigid-body removal. Green-Lagrange strain via Delaunay triangulation.\n",
       "conclusions": "TODO: Add your observations and conclusions.\n",
       "media": {
-        "images": [
-          {
-            "file": "images/scale_weight.jpg",
-            "caption": "Folded balloon on scale \u2014 ~24g"
-          },
-          {
-            "file": "images/inflated_speckle.jpg",
-            "caption": "Inflated balloon with DIC speckle pattern and tape measure"
-          },
-          {
-            "file": "images/packaging.jpg",
-            "caption": "Balloon packaging \u2014 Silver 4D Foil, 50 inch"
-          }
+        "images": [],
+        "burst_video": null,
+        "burst_video_fps": null
+      },
+      "tags": [],
+      "has_viewer": true,
+      "has_mesh": true,
+      "has_per_frame": true
+    },
+    {
+      "slug": "2.Gold_4D_60inch",
+      "title": "2.Gold 4D 60Inch",
+      "balloon": {
+        "brand": "",
+        "model": "",
+        "size_nominal": "",
+        "color": "",
+        "material": "",
+        "material_thickness_um": null,
+        "weight_g": null,
+        "dimensions_uninflated_mm": null,
+        "cost_usd": null,
+        "lot": "",
+        "supplier": "",
+        "url": ""
+      },
+      "test": {
+        "date": "2.Gold_4D_",
+        "location": "",
+        "temperature_c": 19.3,
+        "humidity_pct": 18.6,
+        "protocol": "",
+        "pressures_psi": [
+          0.09,
+          0.15,
+          0.14,
+          0.2,
+          0.19,
+          0.24,
+          0.28,
+          0.33,
+          0.38,
+          0.42,
+          0.47,
+          0.52
         ],
+        "hold_duration_s": null,
+        "notes": ""
+      },
+      "results": {
+        "burst_pressure_psi": null,
+        "max_pressure_psi": 0.52,
+        "max_diameter_in": 47.5,
+        "total_duration_s": 21275.0,
+        "plateaus_detected": 12,
+        "max_height_in": 47.73,
+        "station_pressure_hpa": 899.8
+      },
+      "methods": "Stereo vision with dual cameras. FoundationStereo depth estimation. Blob detection on rectified images. Kabsch alignment for rigid-body removal. Green-Lagrange strain via Delaunay triangulation.\n",
+      "conclusions": "TODO: Add your observations and conclusions.\n",
+      "media": {
+        "images": [],
         "burst_video": null,
         "burst_video_fps": null
       },
