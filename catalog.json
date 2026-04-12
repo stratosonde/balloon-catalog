@@ -71,7 +71,7 @@
         "size_nominal": "",
         "color": "",
         "material": "",
-        "material_thickness_um": null,
+        "material_thickness_um": 32,
         "weight_g": null,
         "dimensions_uninflated_mm": null,
         "cost_usd": null,
@@ -114,7 +114,11 @@
       "methods": "Stereo vision with dual cameras. FoundationStereo depth estimation. Blob detection on rectified images. Kabsch alignment for rigid-body removal. Green-Lagrange strain via Delaunay triangulation.\n",
       "conclusions": "TODO: Add your observations and conclusions.\n",
       "media": {
-        "images": [],
+        "images": [
+          {"file": "images/packaging.jpg", "caption": "Packaging"},
+          {"file": "images/scale_weight.jpg", "caption": "Scale & Weight"},
+          {"file": "images/inflated_speckle.jpg", "caption": "Inflated with Speckle Pattern"}
+        ],
         "burst_video": null,
         "burst_video_fps": null
       },
