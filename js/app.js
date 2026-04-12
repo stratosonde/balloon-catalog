@@ -187,7 +187,13 @@ async function _setupVideo(slug) {
     }
 
     // Load the all-intra re-encoded video
-    _videoEl.src = `balloons/${slug}/video/frames.mp4`;
+    // GitHub Pages can't serve Git LFS files directly — use media.githubusercontent.com
+    const isGitHubPages = location.hostname.includes('github.io') || location.hostname.includes('stratosonde.org');
+    const videoPath = `balloons/${slug}/video/frames.mp4`;
+    _videoEl.src = isGitHubPages
+        ? `https://media.githubusercontent.com/media/stratosonde/balloon-catalog/main/${videoPath}`
+        : videoPath;
+    _videoEl.crossOrigin = 'anonymous';
     _videoEl.preload = 'auto';
 
     await new Promise(resolve => {
