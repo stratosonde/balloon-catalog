@@ -71,46 +71,48 @@ const Catalog = (() => {
         const all = getAll();
         if (all.length === 0) return;
 
-        // Define rows: [label, unit, accessor(balloon) → value]
+        // Define columns: [label, unit, accessor(balloon) → value]
         const fmtDur = s => {
             if (s == null) return null;
             const m = Math.floor(s / 60), sec = Math.round(s % 60);
             return m >= 60 ? `${Math.floor(m/60)}h ${m%60}m` : `${m}m ${sec}s`;
         };
-        const rows = [
-            ['Max Pressure',  'PSI',  b => b.results?.max_pressure_psi],
-            ['Max Diameter',  'in',   b => b.results?.max_diameter_in],
-            ['Thickness',     'µm',   b => b.balloon?.material_thickness_um],
-            ['Plateaus',      '',     b => b.results?.plateaus_detected],
-            ['Duration',      '',     b => fmtDur(b.results?.total_duration_s)],
-            ['Pressure Steps','',     b => b.test?.pressures_psi?.length],
-            ['Temperature',   '°C',   b => b.test?.temperature_c],
-            ['Humidity',      '%',    b => b.test?.humidity_pct],
-            ['Atm. Pressure', 'hPa',  b => b.results?.station_pressure_hpa],
+        const cols = [
+            ['P_max',     'PSI',  b => b.results?.max_pressure_psi],
+            ['Ø_max',     'in',   b => b.results?.max_diameter_in],
+            ['Thick.',    'µm',   b => b.balloon?.material_thickness_um],
+            ['Plateaus',  '',     b => b.results?.plateaus_detected],
+            ['Duration',  '',     b => fmtDur(b.results?.total_duration_s)],
+            ['Steps',     '',     b => b.test?.pressures_psi?.length],
+            ['Temp',      '°C',   b => b.test?.temperature_c],
+            ['RH',        '%',    b => b.test?.humidity_pct],
         ];
 
-        // Build table HTML
+        // Filter out columns where every balloon has null
+        const activeCols = cols.filter(([,, acc]) => all.some(b => {
+            const v = acc(b); return v != null && v !== '';
+        }));
+
+        // Build table: balloons as rows, parameters as columns
         let html = '<table class="comp-table">';
 
-        // Header row: empty corner + one column per balloon
-        html += '<thead><tr><th></th>';
+        // Header row
+        html += '<thead><tr><th class="comp-corner"></th>';
+        for (const [label, unit] of activeCols) {
+            html += `<th class="comp-col-header">${_esc(label)}${unit ? `<br><span class="comp-unit">${_esc(unit)}</span>` : ''}</th>`;
+        }
+        html += '</tr></thead><tbody>';
+
+        // One row per balloon
         for (const b of all) {
             const thumb = b.media?.images?.[0];
             const thumbHtml = thumb
                 ? `<img src="balloons/${_esc(b.slug)}/${_esc(thumb.file)}" alt="" class="comp-thumb">`
                 : '';
-            html += `<th class="comp-balloon" data-slug="${_esc(b.slug)}">${thumbHtml}<span class="comp-title">${_esc(b.title)}</span></th>`;
-        }
-        html += '</tr></thead><tbody>';
-
-        // Data rows
-        for (const [label, unit, accessor] of rows) {
-            // Skip row if all values are null/empty
-            const vals = all.map(accessor);
-            if (vals.every(v => v == null || v === '')) continue;
-
-            html += `<tr><td class="comp-label">${_esc(label)}${unit ? ` <span class="comp-unit">(${_esc(unit)})</span>` : ''}</td>`;
-            for (const v of vals) {
+            html += `<tr class="comp-row" data-slug="${_esc(b.slug)}">`;
+            html += `<td class="comp-balloon-cell">${thumbHtml}<span class="comp-title">${_esc(b.title)}</span></td>`;
+            for (const [,, accessor] of activeCols) {
+                const v = accessor(b);
                 const display = v != null && v !== '' ? String(v) : '—';
                 html += `<td class="comp-value">${_esc(display)}</td>`;
             }
@@ -120,10 +122,10 @@ const Catalog = (() => {
         html += '</tbody></table>';
         el.innerHTML = html;
 
-        // Make column headers clickable
-        el.querySelectorAll('.comp-balloon').forEach(th => {
-            th.addEventListener('click', () => {
-                const slug = th.dataset.slug;
+        // Make rows clickable
+        el.querySelectorAll('.comp-row').forEach(tr => {
+            tr.addEventListener('click', () => {
+                const slug = tr.dataset.slug;
                 if (slug) selectBalloon(slug);
             });
         });
