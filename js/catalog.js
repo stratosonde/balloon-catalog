@@ -78,12 +78,16 @@ const Catalog = (() => {
             return m >= 60 ? `${Math.floor(m/60)}h ${m%60}m` : `${m}m ${sec}s`;
         };
         const cols = [
+            ['Brand',     '',     b => b.balloon?.brand],
+            ['Color',     '',     b => b.balloon?.color],
+            ['Size',      '',     b => b.balloon?.size_nominal],
+            ['Weight',    'g',    b => b.balloon?.weight_g],
+            ['Thick.',    'µm',   b => b.balloon?.material_thickness_um],
+            ['Cost',      '$',    b => b.balloon?.cost_usd],
             ['P_max',     'PSI',  b => b.results?.max_pressure_psi],
             ['Ø_max',     'in',   b => b.results?.max_diameter_in],
-            ['Thick.',    'µm',   b => b.balloon?.material_thickness_um],
             ['Plateaus',  '',     b => b.results?.plateaus_detected],
             ['Duration',  '',     b => fmtDur(b.results?.total_duration_s)],
-            ['Steps',     '',     b => b.test?.pressures_psi?.length],
             ['Temp',      '°C',   b => b.test?.temperature_c],
             ['RH',        '%',    b => b.test?.humidity_pct],
         ];
