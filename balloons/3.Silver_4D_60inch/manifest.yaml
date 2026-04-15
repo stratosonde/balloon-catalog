@@ -1,0 +1,121 @@
+title: Silver 4-Gore 60" Mylar — Pinhole Leak Failure
+balloon:
+  brand: ''
+  model: 4-Gore
+  size_nominal: 60 inch
+  color: Silver
+  material: Mylar (BoPET)
+  material_thickness_um: 26
+  weight_g: null
+  dimensions_uninflated_mm: null
+  cost_usd: null
+  lot: ''
+  supplier: ''
+  url: ''
+test:
+  date: '2026-04-12'
+  location: ''
+  temperature_c: 19.9
+  humidity_pct: 20.3
+  protocol: ''
+  pressures_psi:
+  - 0.1
+  - 0.1
+  - 0.1
+  - 0.1
+  - 0.12
+  - 0.12
+  - 0.15
+  - 0.15
+  - 0.17
+  - 0.17
+  - 0.17
+  - 0.17
+  - 0.17
+  - 0.2
+  - 0.2
+  - 0.2
+  - 0.2
+  - 0.2
+  - 0.2
+  - 0.22
+  - 0.22
+  - 0.22
+  - 0.22
+  - 0.22
+  - 0.22
+  - 0.22
+  - 0.25
+  - 0.25
+  - 0.25
+  - 0.25
+  - 0.25
+  - 0.27
+  - 0.27
+  - 0.27
+  - 0.27
+  - 0.27
+  - 0.27
+  - 0.27
+  - 0.27
+  - 0.27
+  - 0.27
+  - 0.27
+  - 0.3
+  - 0.3
+  - 0.3
+  - 0.3
+  - 0.3
+  - 0.3
+  - 0.3
+  - 0.3
+  - 0.32
+  - 0.32
+  - 0.32
+  - 0.32
+  - 0.32
+  - 0.32
+  - 0.32
+  - 0.32
+  - 0.35
+  - 0.35
+  - 0.35
+  - 0.35
+  - 0.35
+  - 0.35
+  - 0.35
+  - 0.35
+  - 0.35
+  - 0.35
+  hold_duration_s: null
+  notes: Test stopped due to multiple pinhole leaks. Balloon did not reach burst pressure.
+results:
+  burst_pressure_psi: null
+  max_pressure_psi: 0.35
+  max_diameter_in: 39.3
+  total_duration_s: 45613.0
+  plateaus_detected: 68
+  max_height_in: 40.0
+  station_pressure_hpa: 884.3
+media:
+  images:
+  - packaging.jpg
+  - scale_preinflation.jpg
+  - inflated.jpg
+  - pinhole.jpg
+  burst_video: null
+  burst_video_fps: null
+conclusions: Silver 4-gore 60" Mylar balloon failed pre-burst due to multiple pinhole leaks. Test was
+  stopped before burst pressure could be reached. Strain analysis shows surface deformation up to the
+  point of test termination.
+methods: 'Stereo vision with dual cameras. FoundationStereo depth estimation. Blob detection on rectified
+  images. Kabsch alignment for rigid-body removal. Green-Lagrange strain via Delaunay triangulation.
+
+  '
+tags:
+- silver
+- mylar
+- 60inch
+- 4-gore
+- pinhole-leak
+- failed-burst
