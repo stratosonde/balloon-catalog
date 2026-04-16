@@ -439,8 +439,9 @@ function _fillGallery(b) {
     const slug = b.slug;
     el.classList.remove('hidden');
     el.innerHTML = images.map(img => {
-        const src = `balloons/${slug}/${img.file}`;
-        const cap = img.caption || '';
+        const file = typeof img === 'string' ? img : img.file;
+        const cap = typeof img === 'string' ? '' : (img.caption || '');
+        const src = `balloons/${slug}/images/${file}`;
         return `<figure>
             <img src="${_esc(src)}" alt="${_esc(cap)}" loading="lazy"
                  onclick="window.open(this.src,'_blank')">
