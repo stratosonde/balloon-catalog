@@ -109,9 +109,10 @@ const Catalog = (() => {
 
         // One row per balloon
         for (const b of all) {
-            const thumb = b.media?.images?.[0];
-            const thumbHtml = thumb
-                ? `<img src="balloons/${_esc(b.slug)}/${_esc(thumb.file)}" alt="" class="comp-thumb">`
+            const rawThumb = b.media?.images?.[0];
+            const thumbFile = rawThumb ? (typeof rawThumb === 'string' ? rawThumb : rawThumb.file) : null;
+            const thumbHtml = thumbFile
+                ? `<img src="balloons/${_esc(b.slug)}/images/${_esc(thumbFile)}" alt="" class="comp-thumb">`
                 : '';
             html += `<tr class="comp-row" data-slug="${_esc(b.slug)}">`;
             html += `<td class="comp-balloon-cell">${thumbHtml}<span class="comp-title">${_esc(b.title)}</span></td>`;

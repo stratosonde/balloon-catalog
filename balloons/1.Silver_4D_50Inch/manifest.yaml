@@ -42,7 +42,10 @@ results:
   max_height_in: 35.13
   station_pressure_hpa: 885.4
 media:
-  images: []
+  images:
+  - packaging.jpg
+  - preinflation.jpg
+  - scale_weight.jpg
   burst_video: null
   burst_video_fps: null
 conclusions: 'TODO: Add your observations and conclusions.

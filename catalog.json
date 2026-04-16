@@ -53,7 +53,11 @@
       "methods": "Stereo vision with dual cameras. FoundationStereo depth estimation. Blob detection on rectified images. Kabsch alignment for rigid-body removal. Green-Lagrange strain via Delaunay triangulation.\n",
       "conclusions": "TODO: Add your observations and conclusions.\n",
       "media": {
-        "images": [],
+        "images": [
+          "packaging.jpg",
+          "preinflation.jpg",
+          "scale_weight.jpg"
+        ],
         "burst_video": null,
         "burst_video_fps": null
       },
