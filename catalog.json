@@ -296,7 +296,7 @@
       },
       "results": {
         "burst_pressure_psi": null,
-        "max_pressure_psi": 3.61,
+        "max_pressure_psi": 0.425,
         "max_diameter_in": 40.29,
         "total_duration_s": 124914.0,
         "plateaus_detected": null,

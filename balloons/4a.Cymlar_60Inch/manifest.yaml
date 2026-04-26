@@ -25,7 +25,7 @@ test:
 notes: 'First inflation of Cymlar 60-inch balloon (virgin material). Ran ~34.7 hours over Apr 18–20. Power supply failure on stereo camera prevented DIC analysis. Only inflator sensor data is available. The balloon was allowed to fully deflate before re-inflation (4b) on Apr 24.'
 results:
   burst_pressure_psi: null
-  max_pressure_psi: 3.61
+  max_pressure_psi: 0.425
   max_diameter_in: 40.29
   total_duration_s: 124914.0
   plateaus_detected: null
