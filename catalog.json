@@ -1,5 +1,5 @@
 {
-  "count": 4,
+  "count": 5,
   "balloons": [
     {
       "slug": "1.Silver_4D_50Inch",
@@ -11,7 +11,7 @@
         "size_nominal": "50 inch",
         "color": "Silver",
         "material": "",
-        "material_thickness_um": 28,
+        "material_thickness_um": 26,
         "weight_g": null,
         "dimensions_uninflated_mm": null,
         "cost_usd": null,
@@ -267,9 +267,9 @@
       "has_per_frame": true
     },
     {
-      "slug": "4.Cymlar_60Inch",
-      "index": 4,
-      "title": "Cymlar 60Inch",
+      "slug": "4a.Cymlar_60Inch",
+      "index": "4a",
+      "title": "Cymlar 60\u2033 \u2014 First Inflation (Inflator Only)",
       "balloon": {
         "brand": "",
         "model": "",
@@ -285,7 +285,63 @@
         "url": ""
       },
       "test": {
-        "date": "4.Cymlar_6",
+        "date": "2026-04-18",
+        "location": "",
+        "temperature_c": 20.2,
+        "humidity_pct": 18.5,
+        "protocol": "Pressure increased in 0.025 PSI increments; held steady after pump off for 10 minutes before advancing. First inflation of virgin balloon.",
+        "pressures_psi": [],
+        "hold_duration_s": null,
+        "notes": "First inflation of this balloon. Stereo camera power supply failed during test \u2014 DIC images lost. Balloon was deflated and re-inflated as entry 4b with working cameras."
+      },
+      "results": {
+        "burst_pressure_psi": null,
+        "max_pressure_psi": 3.61,
+        "max_diameter_in": 40.29,
+        "total_duration_s": 124914.0,
+        "plateaus_detected": null,
+        "max_height_in": 40.29,
+        "station_pressure_hpa": 887.8
+      },
+      "methods": "Inflator sensor data only (IMU angles, differential pressure, pump state, ambient conditions). No stereo DIC data available due to camera power supply failure.",
+      "conclusions": "First inflation of virgin Cymlar material. The balloon reached higher pressures than the re-inflation (4b), consistent with virgin material having higher initial stiffness before plastic deformation from the first inflation cycle.",
+      "notes": "First inflation of Cymlar 60-inch balloon (virgin material). Ran ~34.7 hours over Apr 18\u201320. Power supply failure on stereo camera prevented DIC analysis. Only inflator sensor data is available. The balloon was allowed to fully deflate before re-inflation (4b) on Apr 24.",
+      "media": {
+        "images": [
+          "scale_weight.jpg",
+          "preinflation.jpg"
+        ],
+        "burst_video": null,
+        "burst_video_fps": null
+      },
+      "tags": [
+        "inflator-only",
+        "first-inflation"
+      ],
+      "has_viewer": false,
+      "has_mesh": false,
+      "has_per_frame": false
+    },
+    {
+      "slug": "4b.Cymlar_60Inch",
+      "index": "4b",
+      "title": "Cymlar 60\u2033 \u2014 Re-inflation (Full DIC)",
+      "balloon": {
+        "brand": "",
+        "model": "",
+        "size_nominal": "60 inch",
+        "color": "Clear",
+        "material": "",
+        "material_thickness_um": 24,
+        "weight_g": null,
+        "dimensions_uninflated_mm": null,
+        "cost_usd": 1.75,
+        "lot": "",
+        "supplier": "",
+        "url": ""
+      },
+      "test": {
+        "date": "2026-04-24",
         "location": "",
         "temperature_c": 21.8,
         "humidity_pct": 16.0,
@@ -342,7 +398,7 @@
           0.52
         ],
         "hold_duration_s": null,
-        "notes": ""
+        "notes": "Re-inflation of same balloon after first inflation on 2026-04-18 (stereo camera power supply failure lost DIC images). See entry 4a for first inflation inflator data."
       },
       "results": {
         "burst_pressure_psi": null,
@@ -355,7 +411,7 @@
       },
       "methods": "Stereo vision with dual cameras. FoundationStereo depth estimation. Blob detection on rectified images. Kabsch alignment for rigid-body removal. Green-Lagrange strain via Delaunay triangulation.\n",
       "conclusions": "TODO: Add your observations and conclusions.\n",
-      "notes": "",
+      "notes": "Second inflation of same Cymlar 60-inch balloon. First inflation (4a) reached 0.52 PSI over ~8.6 hours; balloon was allowed to deflate before this re-run with working stereo cameras.",
       "media": {
         "images": [
           "scale_weight.jpg",

@@ -445,6 +445,35 @@ body {
     height: 280px;
 }
 
+/* ── Fullscreen chart cards ── */
+.chart-card:fullscreen,
+.chart-card-wide:fullscreen {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-0);
+    padding: 24px;
+    border: none;
+    border-radius: 0;
+}
+.chart-card:fullscreen .plot-container,
+.chart-card-wide:fullscreen .plot-container {
+    flex: 1;
+    height: 100% !important;
+}
+.chart-card:fullscreen h3 {
+    color: var(--text-0);
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+}
+
+/* Plotly modebar styling to match dark theme */
+.modebar { opacity: 0; transition: opacity 0.2s; }
+.chart-card:hover .modebar,
+.chart-card-wide:hover .modebar { opacity: 1; }
+.modebar-btn path { fill: var(--text-3) !important; }
+.modebar-btn:hover path { fill: var(--accent) !important; }
+.modebar-btn.active path { fill: var(--accent) !important; }
+
 /* ═══ POINT DETAIL ═══════════════════════════════════════════ */
 .point-section {
     margin: 0 12px 12px;

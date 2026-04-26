@@ -1,0 +1,44 @@
+title: "Cymlar 60\u2033 \u2014 First Inflation (Inflator Only)"
+index: 4a
+balloon:
+  brand: ''
+  model: ''
+  size_nominal: 60 inch
+  color: Clear
+  material: ''
+  material_thickness_um: 24
+  weight_g: null
+  dimensions_uninflated_mm: null
+  cost_usd: 1.75
+  lot: ''
+  supplier: ''
+  url: ''
+test:
+  date: '2026-04-18'
+  location: ''
+  temperature_c: 20.2
+  humidity_pct: 18.5
+  protocol: Pressure increased in 0.025 PSI increments; held steady after pump off for 10 minutes before advancing. First inflation of virgin balloon.
+  pressures_psi: []
+  hold_duration_s: null
+  notes: 'First inflation of this balloon. Stereo camera power supply failed during test — DIC images lost. Balloon was deflated and re-inflated as entry 4b with working cameras.'
+notes: 'First inflation of Cymlar 60-inch balloon (virgin material). Ran ~34.7 hours over Apr 18–20. Power supply failure on stereo camera prevented DIC analysis. Only inflator sensor data is available. The balloon was allowed to fully deflate before re-inflation (4b) on Apr 24.'
+results:
+  burst_pressure_psi: null
+  max_pressure_psi: 3.61
+  max_diameter_in: 40.29
+  total_duration_s: 124914.0
+  plateaus_detected: null
+  max_height_in: 40.29
+  station_pressure_hpa: 887.8
+media:
+  images:
+  - scale_weight.jpg
+  - preinflation.jpg
+  burst_video: null
+  burst_video_fps: null
+conclusions: 'First inflation of virgin Cymlar material. The balloon reached higher pressures than the re-inflation (4b), consistent with virgin material having higher initial stiffness before plastic deformation from the first inflation cycle.'
+methods: 'Inflator sensor data only (IMU angles, differential pressure, pump state, ambient conditions). No stereo DIC data available due to camera power supply failure.'
+tags:
+  - inflator-only
+  - first-inflation

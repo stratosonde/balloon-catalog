@@ -75,32 +75,34 @@ async function onBalloonSelected(balloon) {
     _inflatorRows = _filterPumpOff(inflatorRows || []);
     _thicknessUm = balloon.balloon?.material_thickness_um || null;
 
-    if (!frameIndex || !meshData) {
-        console.error('Failed to load viewer data');
-        return;
+    const hasDIC = !!(frameIndex && meshData);
+
+    if (hasDIC) {
+        StrainMap.loadMesh(meshData, frameIndex.image_size);
+        StrainMap.setOnHover(_onFieldHover);
+        StrainMap.setOnSelect(_onFieldSelect);
+
+        // Initialize profile viewer with pre-computed depth profiles
+        Profiles.setSlug(slug);
+        if (profilesData) {
+            Profiles.loadProfiles(profilesData, tracksData, meshData);
+        } else if (tracksData && meshData) {
+            // Fallback for older exports without profiles.json
+            Profiles.loadTracks(tracksData, meshData);
+        }
+        Profiles.updateAllLabels();
+
+        Timeline.load(frameIndex);
+        Timeline.onChange(async (idx, frameEntry) => {
+            await _loadAndRenderFrame(frameEntry);
+            Plots.updateCursor(idx);
+            _updateInfoCards(frameEntry);
+        });
+    } else {
+        console.info('No DIC viewer data — rendering inflator-only plots');
     }
 
-    StrainMap.loadMesh(meshData, frameIndex.image_size);
-    StrainMap.setOnHover(_onFieldHover);
-    StrainMap.setOnSelect(_onFieldSelect);
-
-    // Initialize profile viewer with pre-computed depth profiles
-    Profiles.setSlug(slug);
-    if (profilesData) {
-        Profiles.loadProfiles(profilesData, tracksData, meshData);
-    } else if (tracksData && meshData) {
-        // Fallback for older exports without profiles.json
-        Profiles.loadTracks(tracksData, meshData);
-    }
-    Profiles.updateAllLabels();
-
-    Timeline.load(frameIndex);
-    Timeline.onChange(async (idx, frameEntry) => {
-        await _loadAndRenderFrame(frameEntry);
-        Plots.updateCursor(idx);
-        _updateInfoCards(frameEntry);
-    });
-
+    // Render all plots — each one gracefully handles null/empty data
     Plots.renderStrainHistory(frameIndex, null, null);
     Plots.renderCircPressure(frameIndex, plateauRows, _inflatorRows);
     Plots.renderBiaxiality(frameIndex, plateauRows);
@@ -121,15 +123,17 @@ async function onBalloonSelected(balloon) {
     _fillDownloads(balloon);
     _fillGallery(balloon);
 
-    // Setup video background (frames_allI.mp4 — all-intra keyframes)
-    await _setupVideo(slug);
+    if (hasDIC) {
+        // Setup video background (frames_allI.mp4 — all-intra keyframes)
+        await _setupVideo(slug);
 
-    if (frameIndex.frames.length > 0) {
-        await _loadAndRenderFrame(frameIndex.frames[0]);
-        _updateInfoCards(frameIndex.frames[0]);
+        if (frameIndex.frames.length > 0) {
+            await _loadAndRenderFrame(frameIndex.frames[0]);
+            _updateInfoCards(frameIndex.frames[0]);
+        }
+
+        _startPrefetch(0, 20);
     }
-
-    _startPrefetch(0, 20);
 }
 
 // ═══════════════════════════════════════════════════════════════

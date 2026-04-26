@@ -14,7 +14,29 @@ const Plots = (() => {
         hovermode: 'x unified',
         hoverlabel: { bgcolor: '#131d2e', bordercolor: '#38bdf8', font: { family: 'monospace', size: 10 } },
     };
-    const CFG = { displayModeBar: false, responsive: true };
+    // Plotly modebar: show on hover with pan/zoom/download + custom fullscreen button
+    const _fullscreenBtn = {
+        name: 'Fullscreen',
+        icon: {
+            width: 24, height: 24, path:
+                'M3 3h7V1H1v9h2V3zm18 0h-7V1h9v9h-2V3zM3 21h7v2H1v-9h2v7zm18 0h-7v2h9v-9h-2v7z',
+        },
+        click: function (gd) {
+            const el = gd.closest('.chart-card') || gd;
+            if (!document.fullscreenElement) {
+                el.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen();
+            }
+        },
+    };
+    const CFG = {
+        displayModeBar: 'hover',
+        responsive: true,
+        modeBarButtonsToAdd: [_fullscreenBtn],
+        modeBarButtonsToRemove: ['select2d', 'lasso2d'],
+        displaylogo: false,
+    };
 
     let _cursorShapes = {};
     let _cachedFrameIndex = null;

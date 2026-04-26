@@ -1,5 +1,5 @@
-title: Cymlar 60Inch
-index: 4
+title: "Cymlar 60\u2033 \u2014 Re-inflation (Full DIC)"
+index: 4b
 balloon:
   brand: ''
   model: ''
@@ -14,7 +14,7 @@ balloon:
   supplier: ''
   url: ''
 test:
-  date: 4.Cymlar_6
+  date: '2026-04-24'
   location: ''
   temperature_c: 21.8
   humidity_pct: 16.0
@@ -70,8 +70,8 @@ test:
   - 0.5
   - 0.52
   hold_duration_s: null
-  notes: ''
-notes: ''
+  notes: 'Re-inflation of same balloon after first inflation on 2026-04-18 (stereo camera power supply failure lost DIC images). See entry 4a for first inflation inflator data.'
+notes: 'Second inflation of same Cymlar 60-inch balloon. First inflation (4a) reached 0.52 PSI over ~8.6 hours; balloon was allowed to deflate before this re-run with working stereo cameras.'
 results:
   burst_pressure_psi: null
   max_pressure_psi: 0.52
