@@ -34,7 +34,7 @@ const Catalog = (() => {
         if (!select) return;
         let html = '<option value="">— Select a test —</option>';
         for (const b of getAll()) {
-            const meta = [b.test?.date, b.balloon?.material].filter(Boolean).join(' · ');
+            const meta = [b.test?.date, b.balloon?.size_nominal].filter(Boolean).join(' · ');
             const label = b.title + (meta ? ` (${meta})` : '');
             html += `<option value="${_esc(b.slug)}">${_esc(label)}</option>`;
         }
@@ -90,6 +90,7 @@ const Catalog = (() => {
             ['Duration',  '',     b => fmtDur(b.results?.total_duration_s)],
             ['Temp',      '°C',   b => b.test?.temperature_c],
             ['RH',        '%',    b => b.test?.humidity_pct],
+            ['Notes',     '',     b => b.notes],
         ];
 
         // Filter out columns where every balloon has null
@@ -115,7 +116,8 @@ const Catalog = (() => {
                 ? `<img src="balloons/${_esc(b.slug)}/images/${_esc(thumbFile)}" alt="" class="comp-thumb">`
                 : '';
             html += `<tr class="comp-row" data-slug="${_esc(b.slug)}">`;
-            html += `<td class="comp-balloon-cell">${thumbHtml}<span class="comp-title">${_esc(b.title)}</span></td>`;
+            const idxLabel = b.index != null ? `<span class="comp-index">#${b.index}</span> ` : '';
+            html += `<td class="comp-balloon-cell">${idxLabel}${thumbHtml}<span class="comp-title">${_esc(b.title)}</span></td>`;
             for (const [,, accessor] of activeCols) {
                 const v = accessor(b);
                 const display = v != null && v !== '' ? String(v) : '—';

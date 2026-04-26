@@ -46,12 +46,14 @@ def main():
 
         entry = {
             "slug": slug,
+            "index": data.get("index", None),
             "title": data.get("title", slug),
             "balloon": data.get("balloon", {}),
             "test": data.get("test", {}),
             "results": data.get("results", {}),
             "methods": data.get("methods", ""),
             "conclusions": data.get("conclusions", ""),
+            "notes": data.get("notes", ""),
             "media": data.get("media", {}),
             "tags": data.get("tags", []),
             "has_viewer": has_viewer,

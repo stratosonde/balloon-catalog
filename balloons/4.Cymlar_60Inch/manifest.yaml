@@ -1,0 +1,96 @@
+title: Cymlar 60Inch
+index: 4
+balloon:
+  brand: ''
+  model: ''
+  size_nominal: 60 inch
+  color: Clear
+  material: ''
+  material_thickness_um: 24
+  weight_g: null
+  dimensions_uninflated_mm: null
+  cost_usd: 1.75
+  lot: ''
+  supplier: ''
+  url: ''
+test:
+  date: 4.Cymlar_6
+  location: ''
+  temperature_c: 21.8
+  humidity_pct: 16.0
+  protocol: Pressure increased in 0.025 PSI increments; held steady after pump off for 5 minutes before recording plateau, allowing more time at each pressure level.
+  pressures_psi:
+  - 0.1
+  - 0.1
+  - 0.12
+  - 0.12
+  - 0.13
+  - 0.15
+  - 0.17
+  - 0.2
+  - 0.22
+  - 0.22
+  - 0.22
+  - 0.22
+  - 0.25
+  - 0.25
+  - 0.25
+  - 0.25
+  - 0.27
+  - 0.27
+  - 0.3
+  - 0.3
+  - 0.32
+  - 0.32
+  - 0.32
+  - 0.32
+  - 0.35
+  - 0.35
+  - 0.35
+  - 0.35
+  - 0.35
+  - 0.35
+  - 0.35
+  - 0.35
+  - 0.35
+  - 0.38
+  - 0.4
+  - 0.4
+  - 0.4
+  - 0.43
+  - 0.43
+  - 0.42
+  - 0.42
+  - 0.43
+  - 0.45
+  - 0.47
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.52
+  hold_duration_s: null
+  notes: ''
+notes: ''
+results:
+  burst_pressure_psi: null
+  max_pressure_psi: 0.52
+  max_diameter_in: 40.32
+  total_duration_s: 31030.0
+  plateaus_detected: 49
+  max_height_in: 40.65
+  station_pressure_hpa: 891.9
+media:
+  images:
+  - scale_weight.jpg
+  - preinflation.jpg
+  burst_video: null
+  burst_video_fps: null
+conclusions: 'TODO: Add your observations and conclusions.
+
+  '
+methods: 'Stereo vision with dual cameras. FoundationStereo depth estimation. Blob detection on rectified
+  images. Kabsch alignment for rigid-body removal. Green-Lagrange strain via Delaunay triangulation.
+
+  '
+tags: []

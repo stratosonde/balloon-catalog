@@ -52,10 +52,12 @@ async function onBalloonSelected(balloon) {
     document.getElementById('welcome-panel').classList.add('hidden');
     document.getElementById('detail-panel').classList.remove('hidden');
 
-    document.getElementById('detail-title').textContent = balloon.title;
-    const meta = [balloon.balloon?.brand, balloon.balloon?.material,
-        balloon.test?.date].filter(Boolean).join(' · ');
-    document.getElementById('detail-meta').textContent = meta;
+    const titlePrefix = balloon.index != null ? `#${balloon.index} ` : '';
+    document.getElementById('detail-title').textContent = titlePrefix + balloon.title;
+    const meta = [balloon.balloon?.color,
+        balloon.balloon?.size_nominal, balloon.test?.date].filter(Boolean).join(' · ');
+    const notesLine = balloon.notes ? ` — ${balloon.notes}` : '';
+    document.getElementById('detail-meta').textContent = meta + notesLine;
 
     const [frameIndex, meshData, tracksData, profilesData, plateauRows, inflatorRows] = await Promise.all([
         _fetchJson(`${basePath}/viewer/frame_index.json`),

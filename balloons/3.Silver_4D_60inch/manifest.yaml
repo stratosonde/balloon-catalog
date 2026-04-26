@@ -1,10 +1,11 @@
-title: Silver 4-Gore 60" Mylar — Pinhole Leak Failure
+title: Silver 4-Gore 60Inch
+index: 3
 balloon:
   brand: ''
   model: 4-Gore
   size_nominal: 60 inch
   color: Silver
-  material: Mylar (BoPET)
+  material: ''
   material_thickness_um: 26
   weight_g: null
   dimensions_uninflated_mm: null
@@ -17,7 +18,7 @@ test:
   location: ''
   temperature_c: 19.9
   humidity_pct: 20.3
-  protocol: ''
+  protocol: Time-based protocol with 0.05 PSI pressure increments held for 5 minutes each.
   pressures_psi:
   - 0.1
   - 0.1
@@ -89,6 +90,7 @@ test:
   - 0.35
   hold_duration_s: null
   notes: Test stopped due to multiple pinhole leaks. Balloon did not reach burst pressure.
+notes: Pinhole leak failure. Test stopped before burst pressure could be reached.
 results:
   burst_pressure_psi: null
   max_pressure_psi: 0.35

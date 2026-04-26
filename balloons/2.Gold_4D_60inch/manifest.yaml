@@ -1,9 +1,10 @@
-title: 2.Gold 4D 60Inch
+title: Gold 4D 60Inch
+index: 2
 balloon:
   brand: ''
-  model: ''
-  size_nominal: ''
-  color: ''
+  model: 4-Gore
+  size_nominal: 60 inch
+  color: Gold
   material: ''
   material_thickness_um: 32
   weight_g: null
@@ -17,7 +18,7 @@ test:
   location: ''
   temperature_c: 19.3
   humidity_pct: 18.6
-  protocol: ''
+  protocol: Time-based protocol with 0.05 PSI pressure increments held for 5 minutes each.
   pressures_psi:
   - 0.09
   - 0.15
@@ -33,6 +34,7 @@ test:
   - 0.52
   hold_duration_s: null
   notes: ''
+notes: ''
 results:
   burst_pressure_psi: null
   max_pressure_psi: 0.52
