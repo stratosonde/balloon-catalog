@@ -64,7 +64,7 @@
     "outlier_threshold_sigma": 3.0
   },
   "strain": {
-    "mode": "2d_uv",
+    "mode": "triangle",
     "small_strain_approx": false,
     "strain_floor": null
   },
@@ -112,11 +112,11 @@
     "multi_scale_steps": 5
   },
   "dic_tracking": {
-    "subset_size": 31,
-    "step_size": 20,
+    "subset_size": 15,
+    "step_size": 5,
     "roi_mode": "mask",
     "roi_radius_scale": 1.05,
-    "max_sigma": 0.4,
+    "max_sigma": 0.3,
     "max_iterations": 50,
     "convergence_tol": 0.001,
     "max_lost_frames": 8,

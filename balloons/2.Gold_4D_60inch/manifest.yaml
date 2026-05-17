@@ -1,5 +1,6 @@
 title: Gold 4D 60Inch
 index: 2
+short_description: Gold 60″ mylar — burst test (4D)
 balloon:
   brand: ''
   model: 4-Gore
@@ -7,7 +8,7 @@ balloon:
   color: Gold
   material: ''
   material_thickness_um: 32
-  weight_g: null
+  weight_g: 120.73
   dimensions_uninflated_mm: null
   cost_usd: null
   lot: ''
@@ -34,7 +35,6 @@ test:
   - 0.52
   hold_duration_s: null
   notes: ''
-notes: ''
 results:
   burst_pressure_psi: null
   max_pressure_psi: 0.52
@@ -58,3 +58,4 @@ methods: 'Stereo vision with dual cameras. FoundationStereo depth estimation. Bl
 
   '
 tags: []
+notes: ''

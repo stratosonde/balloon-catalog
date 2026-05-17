@@ -72,6 +72,10 @@
                 </label>
                 <label title="Show the Delaunay triangulation mesh used for strain computation"><input type="checkbox" id="chk-grid"> Grid</label>
                 <label title="Show/hide the camera image behind the strain overlay"><input type="checkbox" id="chk-photo" checked> Photo</label>
+                <label title="Color scale ±N% — reduce to see subtle seam differences">Range:
+                    <input type="range" id="rng-color-range" min="1" max="30" value="10" style="width:70px">
+                    <span id="lbl-color-range">±10%</span>
+                </label>
                 <span class="field-readout" id="field-readout"></span>
             </div>
 

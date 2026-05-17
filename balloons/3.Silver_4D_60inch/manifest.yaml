@@ -1,5 +1,6 @@
 title: Silver 4-Gore 60Inch
 index: 3
+short_description: Silver 60″ mylar — failed pre-burst (pinholes)
 balloon:
   brand: ''
   model: 4-Gore
@@ -7,7 +8,7 @@ balloon:
   color: Silver
   material: ''
   material_thickness_um: 26
-  weight_g: null
+  weight_g: 67.69
   dimensions_uninflated_mm: null
   cost_usd: null
   lot: ''

@@ -21,6 +21,7 @@ const StrainMap = (() => {
     let _onSelect = null;    // callback(dotId)
     let _onHover = null;     // callback(dotId, x, y) or callback(null)
     let _sliceLines = null;  // {hLineV: pixelV, vLineU: pixelU} or null
+    let _colorRange = 0.10;  // fixed ±10% color scale (adjustable via slider)
 
     // RdBu diverging colormap (blue = compression, red = tension)
     const CMAP = [
@@ -61,6 +62,7 @@ const StrainMap = (() => {
     function setMetric(m) { _metric = m; }
     function setOpacity(o) { _opacity = o; }
     function setShowGrid(g) { _showGrid = g; }
+    function setColorRange(r) { _colorRange = r; }
     function setOnSelect(fn) { _onSelect = fn; }
     function setOnHover(fn) { _onHover = fn; }
     function getSelectedDotId() { return _selectedDotId; }
@@ -87,6 +89,9 @@ const StrainMap = (() => {
         _ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         if (_currentDots) _draw();
     }
+
+    // Number of color buckets for batched rendering (more = finer color steps)
+    const _NUM_BUCKETS = 64;
 
     function _draw() {
         const w = _container.clientWidth;
@@ -128,21 +133,32 @@ const StrainMap = (() => {
 
         if (values.length < 3) return;
 
-        // Auto color range: P05 / P95
-        const sorted = [...values].sort((a, b) => a - b);
-        const p05 = sorted[Math.floor(sorted.length * 0.05)];
-        const p95 = sorted[Math.floor(sorted.length * 0.95)];
-        const maxAbs = Math.max(Math.abs(p05), Math.abs(p95), 0.001);
+        // Fixed color range (adjustable via setColorRange / UI slider)
+        const maxAbs = Math.max(_colorRange, 0.001);
 
         // Update colorbar labels
         _updateColorbar(maxAbs);
 
-        // ── Draw smooth strain field ─────────────────────────
-        // Render triangles to an offscreen canvas, then blur for smooth look
+        // ── Batched flat-triangle rendering ───────────────────
+        // Group triangles by quantized color bucket, draw each bucket
+        // in a single beginPath/fill call, then blur for smooth look.
+        // ~64 draw calls instead of ~28,000 save/clip/gradient/restore.
+
         const offCanvas = document.createElement('canvas');
         offCanvas.width = w;
         offCanvas.height = h;
         const offCtx = offCanvas.getContext('2d');
+
+        // Pre-compute bucket colors
+        const bucketColors = new Array(_NUM_BUCKETS);
+        for (let b = 0; b < _NUM_BUCKETS; b++) {
+            const t = (b + 0.5) / _NUM_BUCKETS;
+            bucketColors[b] = _sampleColormap(t);
+        }
+
+        // Assign each triangle to a color bucket
+        const buckets = new Array(_NUM_BUCKETS);
+        for (let b = 0; b < _NUM_BUCKETS; b++) buckets[b] = [];
 
         for (const tri of _mesh.triangles) {
             const id0 = String(_mesh.dot_ids[tri[0]]);
@@ -152,64 +168,38 @@ const StrainMap = (() => {
             const d0 = dotPositions[id0];
             const d1 = dotPositions[id1];
             const d2 = dotPositions[id2];
-
             if (!d0 || !d1 || !d2) continue;
 
-            // Draw 3 overlapping radial gradients for vertex interpolation
-            const cx = (d0.sx + d1.sx + d2.sx) / 3;
-            const cy = (d0.sy + d1.sy + d2.sy) / 3;
-
-            // Clip to triangle
-            offCtx.save();
-            offCtx.beginPath();
-            offCtx.moveTo(d0.sx, d0.sy);
-            offCtx.lineTo(d1.sx, d1.sy);
-            offCtx.lineTo(d2.sx, d2.sy);
-            offCtx.closePath();
-            offCtx.clip();
-
-            // Draw each vertex as radial gradient to simulate interpolation
-            for (const d of [d0, d1, d2]) {
-                const t = _normalize(d.val, maxAbs);
-                const c = _sampleColormap(t);
-                const edgeLen = Math.max(
-                    Math.hypot(d1.sx - d0.sx, d1.sy - d0.sy),
-                    Math.hypot(d2.sx - d1.sx, d2.sy - d1.sy),
-                    Math.hypot(d0.sx - d2.sx, d0.sy - d2.sy)
-                );
-                const radius = edgeLen * 0.9;
-                const grad = offCtx.createRadialGradient(d.sx, d.sy, 0, d.sx, d.sy, radius);
-                grad.addColorStop(0, `rgba(${c.r},${c.g},${c.b},0.5)`);
-                grad.addColorStop(1, `rgba(${c.r},${c.g},${c.b},0.0)`);
-                offCtx.fillStyle = grad;
-                offCtx.fillRect(d.sx - radius, d.sy - radius, radius * 2, radius * 2);
-            }
-
-            // Background fill for gaps (face-averaged)
+            // Face-average strain → color bucket
             const avgVal = (d0.val + d1.val + d2.val) / 3;
-            const ft = _normalize(avgVal, maxAbs);
-            const fc = _sampleColormap(ft);
-            offCtx.globalCompositeOperation = 'destination-over';
-            offCtx.fillStyle = `rgb(${fc.r},${fc.g},${fc.b})`;
-            offCtx.beginPath();
-            offCtx.moveTo(d0.sx, d0.sy);
-            offCtx.lineTo(d1.sx, d1.sy);
-            offCtx.lineTo(d2.sx, d2.sy);
-            offCtx.closePath();
-            offCtx.fill();
-            offCtx.globalCompositeOperation = 'source-over';
-
-            offCtx.restore();
+            const t = _normalize(avgVal, maxAbs);
+            const bucket = Math.max(0, Math.min(_NUM_BUCKETS - 1,
+                Math.floor(t * _NUM_BUCKETS)));
+            buckets[bucket].push(d0, d1, d2);
         }
 
-        // Apply soft blur to smooth out triangle edges
+        // Draw each bucket as a single batched path
+        for (let b = 0; b < _NUM_BUCKETS; b++) {
+            const tris = buckets[b];
+            if (tris.length === 0) continue;
+
+            const c = bucketColors[b];
+            offCtx.fillStyle = `rgb(${c.r},${c.g},${c.b})`;
+            offCtx.beginPath();
+            for (let i = 0; i < tris.length; i += 3) {
+                offCtx.moveTo(tris[i].sx, tris[i].sy);
+                offCtx.lineTo(tris[i + 1].sx, tris[i + 1].sy);
+                offCtx.lineTo(tris[i + 2].sx, tris[i + 2].sy);
+                offCtx.closePath();
+            }
+            offCtx.fill();
+        }
+
+        // Composite with mild blur for smooth color transitions
         _ctx.globalAlpha = _opacity;
         _ctx.filter = 'blur(3px)';
         _ctx.drawImage(offCanvas, 0, 0);
         _ctx.filter = 'none';
-        // Draw again without blur at reduced opacity for sharpness
-        _ctx.globalAlpha = _opacity * 0.5;
-        _ctx.drawImage(offCanvas, 0, 0);
 
         // ── Draw grid edges (optional) ───────────────────────
         if (_showGrid) {
@@ -452,7 +442,7 @@ const StrainMap = (() => {
 
     return {
         init, loadMesh, renderFrame,
-        setMetric, setOpacity, setShowGrid,
+        setMetric, setOpacity, setShowGrid, setColorRange,
         setOnSelect, setOnHover, selectDot, getSelectedDotId,
         setSliceLines,
     };

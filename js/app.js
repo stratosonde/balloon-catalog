@@ -332,6 +332,13 @@ function _setupFieldControls() {
     document.getElementById('chk-photo')?.addEventListener('change', e => {
         if (_bgCanvas) _bgCanvas.classList.toggle('hidden-photo', !e.target.checked);
     });
+    document.getElementById('rng-color-range')?.addEventListener('input', e => {
+        const pct = parseInt(e.target.value, 10);
+        const lbl = document.getElementById('lbl-color-range');
+        if (lbl) lbl.textContent = `±${pct}%`;
+        StrainMap.setColorRange(pct / 100);
+        rerender();
+    });
 }
 
 // ═══════════════════════════════════════════════════════════════

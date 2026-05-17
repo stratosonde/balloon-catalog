@@ -1,13 +1,14 @@
-title: "Cymlar 60\u2033 \u2014 Re-inflation (Full DIC)"
+title: Cymlar 60″ — Second Inflation (Full Stereo DIC)
 index: 4b
+short_description: Cymlar 60″ — second inflation, full DIC, burst
 balloon:
   brand: ''
-  model: ''
+  model: 4-Gore
   size_nominal: 60 inch
   color: Clear
-  material: ''
-  material_thickness_um: 24
-  weight_g: null
+  material: Cymlar (BoPET)
+  material_thickness_um: 23
+  weight_g: 72.36
   dimensions_uninflated_mm: null
   cost_usd: 1.75
   lot: ''
@@ -16,81 +17,41 @@ balloon:
 test:
   date: '2026-04-24'
   location: ''
-  temperature_c: 21.8
-  humidity_pct: 16.0
-  protocol: Pressure increased in 0.025 PSI increments; held steady after pump off for 5 minutes before recording plateau, allowing more time at each pressure level.
+  temperature_c: null
+  humidity_pct: null
+  protocol: Pressure increased in increments; held steady after pump off. Second inflation of same balloon
+    from test 4a (first inflation had camera power failure).
   pressures_psi:
-  - 0.1
-  - 0.1
-  - 0.12
-  - 0.12
-  - 0.13
-  - 0.15
-  - 0.17
-  - 0.2
-  - 0.22
-  - 0.22
-  - 0.22
-  - 0.22
-  - 0.25
-  - 0.25
-  - 0.25
-  - 0.25
-  - 0.27
-  - 0.27
-  - 0.3
-  - 0.3
-  - 0.32
-  - 0.32
-  - 0.32
-  - 0.32
-  - 0.35
-  - 0.35
-  - 0.35
-  - 0.35
-  - 0.35
-  - 0.35
-  - 0.35
-  - 0.35
-  - 0.35
-  - 0.38
-  - 0.4
-  - 0.4
-  - 0.4
-  - 0.43
-  - 0.43
-  - 0.42
-  - 0.42
-  - 0.43
-  - 0.45
-  - 0.47
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.52
+  - 0.37
   hold_duration_s: null
-  notes: 'Re-inflation of same balloon after first inflation on 2026-04-18 (stereo camera power supply failure lost DIC images). See entry 4a for first inflation inflator data.'
-notes: 'Second inflation of same Cymlar 60-inch balloon. First inflation (4a) reached 0.52 PSI over ~8.6 hours; balloon was allowed to deflate before this re-run with working stereo cameras.'
+  notes: Same balloon as test 4a (first inflation 2026-04-18) which had camera power failure. Deflated
+    and re-inflated with working stereo cameras for full DIC analysis. Burst occurred at ~0.55 PSI during
+    cycle 19.
+notes: Second inflation of Cymlar 60-inch 4-gore balloon. First inflation (4a) lost stereo data due to
+  camera power failure. Balloon was deflated and re-inflated here with working cameras for full stereo
+  DIC strain analysis through inflation and burst.
 results:
-  burst_pressure_psi: null
-  max_pressure_psi: 0.52
-  max_diameter_in: 40.32
-  total_duration_s: 31030.0
-  plateaus_detected: 49
-  max_height_in: 40.65
-  station_pressure_hpa: 891.9
+  burst_pressure_psi: 0.55
+  max_pressure_psi: 0.37
+  max_diameter_in: 39.02
+  total_duration_s: 32026.0
+  plateaus_detected: 1
 media:
   images:
   - scale_weight.jpg
   - preinflation.jpg
   burst_video: null
   burst_video_fps: null
-conclusions: 'TODO: Add your observations and conclusions.
-
-  '
-methods: 'Stereo vision with dual cameras. FoundationStereo depth estimation. Blob detection on rectified
-  images. Kabsch alignment for rigid-body removal. Green-Lagrange strain via Delaunay triangulation.
-
-  '
-tags: []
+conclusions: Cymlar 60″ 4-gore balloon (23 µm BoPET) burst at ~0.55 PSI after 19 pressure cycles on second
+  inflation. Lower burst pressure than first inflation (4a reached 0.425 PSI without bursting), consistent
+  with plastic deformation and material fatigue from the first cycle.
+methods: Stereo vision with dual cameras. FoundationStereo depth estimation. DIC subset tracking (IC-GN)
+  on rectified images. Kabsch alignment for rigid-body removal. Green-Lagrange strain via Delaunay triangulation.
+tags:
+- cymlar
+- 60inch
+- 4-gore
+- 23um
+- burst
+- second-inflation
+- stereo-dic

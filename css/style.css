@@ -92,6 +92,7 @@ body {
 /* ── Comparison Table ────────────────────────────────────── */
 #comparison-table {
     width: 100%;
+    overflow-x: auto;   /* allow horizontal scroll for many performance columns */
 }
 .comp-table {
     width: 100%;
@@ -116,6 +117,19 @@ body {
 }
 .comp-col-header {
     vertical-align: bottom;
+}
+.comp-col-header.has-tip {
+    cursor: help;
+    border-bottom-style: dashed;     /* visual hint that hover gives info */
+}
+/* The last data column is the Description — let it wrap & take available width */
+.comp-table tbody td:last-child {
+    white-space: normal;
+    text-align: left;
+    max-width: 22ch;
+    font-family: inherit;
+    font-size: 0.78rem;
+    color: var(--text-2);
 }
 .comp-unit {
     font-size: 0.68rem;

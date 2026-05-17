@@ -1,0 +1,63 @@
+title: Cymlar 60″ — Birefringence Study (Inflator Only, Apr 30)
+index: 5a
+short_description: Cymlar 60″ — birefringence run, Apr 30 (inflator only)
+balloon:
+  brand: ''
+  model: 4-Gore
+  size_nominal: 60 inch
+  color: Clear
+  material: Cymlar (BoPET)
+  material_thickness_um: 23
+  weight_g: 72.36
+  dimensions_uninflated_mm: null
+  cost_usd: 1.75
+  lot: ''
+  supplier: ''
+  url: ''
+test:
+  date: '2026-04-30'
+  location: ''
+  temperature_c: 23.1
+  humidity_pct: 18.1
+  protocol: Birefringence imaging session. Inflator pressure stepped manually; stereo / DIC cameras were
+    not used.
+  pressures_psi: []
+  hold_duration_s: null
+  notes: Inflator-only session focused on birefringence imaging (no stereo / DIC cameras used). Only inflator
+    sensor data is available.
+notes: Inflator-only session focused on birefringence imaging (no stereo / DIC cameras used). Only inflator
+  sensor data is available.
+results:
+  burst_pressure_psi: null
+  max_pressure_psi: 0.924
+  max_diameter_in: 41.74
+  total_duration_s: 100689.0
+  plateaus_detected: null
+  max_height_in: 41.74
+  station_pressure_hpa: 892.5
+media:
+  images:
+  - PXL_20260501_020209441.jpg
+  - PXL_20260501_175424849.jpg
+  - PXL_20260501_214825329.jpg
+  - PXL_20260501_232550385.jpg
+  - PXL_20260502_024609849.jpg
+  - A_Naked_Eye.jpg
+  - A_NonPolarized.png
+  - A_Polarized.png
+  - A_0_CrossPolarized.png
+  - A_90_CrossPolarized.png
+  - A_Scale.png
+  burst_video: null
+  burst_video_fps: null
+conclusions: Inflator-only run on Cymlar 60-inch 4-gore balloon for birefringence study. No stereo DIC
+  data was captured.
+methods: Inflator sensor data only (IMU angles, differential pressure, pump state, ambient conditions).
+  No stereo DIC data captured (birefringence-focused session).
+tags:
+- cymlar
+- 60inch
+- 4-gore
+- 23um
+- inflator-only
+- birefringence

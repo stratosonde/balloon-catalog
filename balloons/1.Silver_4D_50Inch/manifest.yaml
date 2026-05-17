@@ -1,5 +1,6 @@
 title: Silver 4D 50Inch
 index: 1
+short_description: Silver 50″ mylar — burst test (4D)
 balloon:
   brand: ''
   model: 4-Gore
@@ -7,7 +8,7 @@ balloon:
   color: Silver
   material: ''
   material_thickness_um: 26
-  weight_g: null
+  weight_g: 50.0
   dimensions_uninflated_mm: null
   cost_usd: null
   lot: ''
@@ -34,7 +35,6 @@ test:
   - 0.56
   hold_duration_s: null
   notes: ''
-notes: ''
 results:
   burst_pressure_psi: null
   max_pressure_psi: 0.56
@@ -58,3 +58,4 @@ methods: 'Stereo vision with dual cameras. FoundationStereo depth estimation. Bl
 
   '
 tags: []
+notes: ''
