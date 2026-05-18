@@ -23,8 +23,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-        with:
-          lfs: true
+        # Do NOT pull LFS — Pages artifact size limit (~1 GB).
+        # LFS files (mp4, large viewer JSON, inflator_log.csv) are loaded
+        # by the JS at runtime from media.githubusercontent.com.
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

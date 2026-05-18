@@ -608,13 +608,23 @@ function _filterPumpOff(rows) {
 // Utilities
 // ═══════════════════════════════════════════════════════════════
 
+// Paths that match these patterns are stored in Git LFS and are NOT included
+// in the GitHub Pages artifact (Pages 1 GB cap). Load them from media.githubusercontent.com.
+const _LFS_PATH_RE = /(viewer\/(strain_frames|tracks)\.json|data\/inflator_log\.csv|video\/frames(_allI)?\.mp4)$/;
+function _lfsUrl(url) {
+    if (!_LFS_PATH_RE.test(url)) return url;
+    const isGitHubPages = location.hostname.includes('github.io') || location.hostname.includes('stratosonde.org');
+    if (!isGitHubPages) return url;
+    return `https://media.githubusercontent.com/media/stratosonde/balloon-catalog/main/${url.replace(/^\/+/, '')}`;
+}
+
 async function _fetchJson(url) {
-    try { const r = await fetch(url); return r.ok ? await r.json() : null; } catch { return null; }
+    try { const r = await fetch(_lfsUrl(url)); return r.ok ? await r.json() : null; } catch { return null; }
 }
 
 async function _fetchCSV(url) {
     try {
-        const r = await fetch(url); if (!r.ok) return null;
+        const r = await fetch(_lfsUrl(url)); if (!r.ok) return null;
         const lines = (await r.text()).trim().split('\n');
         if (lines.length < 2) return [];
         const h = lines[0].split(',').map(s => s.trim());
