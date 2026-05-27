@@ -120,6 +120,10 @@ const Catalog = (() => {
             // ─── Performance metrics @ reference pressure ───────────────────
             [`Ø@${refP}psi`,  'in',   b => b.derived?.diameter_ref_in,
                 `Equatorial diameter when internal Δpressure first stabilises at ${refP} psi (median over a ±0.02 psi band, ignoring first 30 s).`],
+            [`C@${refP}psi`,  'in',   b => b.derived?.diameter_ref_in != null
+                ? +(b.derived.diameter_ref_in * Math.PI).toFixed(1)
+                : null,
+                `Equatorial circumference at ${refP} psi (π · diameter).`],
             [`V@${refP}psi`,  'L',    b => b.derived?.volume_ref_L,
                 `Inflated volume at ${refP} psi, computed as an oblate ellipsoid V = (π/6)·D²·H.`],
             ['FL/M',      '',     b => b.derived?.free_lift_ratio,

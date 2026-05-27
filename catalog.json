@@ -1,5 +1,5 @@
 {
-  "count": 7,
+  "count": 8,
   "constants": {
     "ref_pressure_psi": 0.2,
     "std_payload_g": 20.0,
@@ -649,6 +649,84 @@
         "payload_at_90pct_hmax_g": 23.1,
         "alt_at_90pct_hmax_km": 15.79,
         "n_ref_samples": 23772
+      }
+    },
+    {
+      "slug": "6.QingdaoYizhou_Silver_50Inch",
+      "index": "6",
+      "title": "QingdaoYizhou Silver 50\u2033 24\u00b5m",
+      "short_description": "QingdaoYizhou silver 50\u2033 24\u00b5m \u2014 stereo + DIC inflation test",
+      "balloon": {
+        "brand": "QingdaoYizhou",
+        "model": "",
+        "size_nominal": "50 inch",
+        "color": "Silver",
+        "material": "",
+        "material_thickness_um": 24,
+        "weight_g": 51.3,
+        "dimensions_uninflated_mm": null,
+        "cost_usd": null,
+        "lot": "",
+        "supplier": "",
+        "url": ""
+      },
+      "test": {
+        "date": "2026-05-22",
+        "location": "",
+        "temperature_c": 26.4,
+        "humidity_pct": 19.4,
+        "protocol": "",
+        "pressures_psi": [],
+        "hold_duration_s": null,
+        "notes": ""
+      },
+      "results": {
+        "burst_pressure_psi": null,
+        "max_pressure_psi": 0.6,
+        "max_diameter_in": 33.86,
+        "total_duration_s": 211854.0,
+        "plateaus_detected": 26,
+        "max_height_in": 35.59,
+        "station_pressure_hpa": 885.4
+      },
+      "methods": "Stereo vision with dual cameras. FoundationStereo depth estimation. DIC subset tracking on rectified images. Kabsch alignment for rigid-body removal. Green-Lagrange strain via Delaunay triangulation.",
+      "conclusions": "TODO: Add observations and conclusions.",
+      "notes": "",
+      "media": {
+        "images": [
+          "PXL_20260520_233104875.jpg",
+          "PXL_20260520_232008762.jpg",
+          "PXL_20260520_231332511.jpg"
+        ],
+        "burst_video": null,
+        "burst_video_fps": null
+      },
+      "tags": [
+        "qingdaoyizhou",
+        "50inch",
+        "silver",
+        "24um",
+        "stereo",
+        "dic"
+      ],
+      "has_viewer": true,
+      "has_mesh": true,
+      "has_per_frame": true,
+      "derived": {
+        "ref_pressure_psi": 0.2,
+        "std_payload_g": 20.0,
+        "payload_alt_fraction": 0.9,
+        "gas": "H2",
+        "diameter_ref_in": 32.194,
+        "height_ref_in": 32.194,
+        "volume_ref_L": 286.3,
+        "gross_lift_g_sl": 326.3,
+        "free_lift_ratio": 5.361,
+        "max_alt_km": 15.04,
+        "alt_at_std_payload_km": 12.95,
+        "payload_at_90pct_hmax_g": 13.7,
+        "alt_at_90pct_hmax_km": 13.53,
+        "n_ref_samples": 45017
       }
     }
   ]

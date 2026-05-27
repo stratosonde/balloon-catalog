@@ -1,0 +1,2 @@
+plateau_id,pressure_mean_psi,diameter_mean_in,t_start_s,t_end_s,t_settled_s,n_frames_settled,creep_rate_diam_in_per_s,creep_rate_strain_median_per_s,creep_rate_strain_p90_per_s
+0,0.40905,33.8649,60.0049,211854,120.005,3646,1.69028e-05,4.82235e-08,-1.8397e-05

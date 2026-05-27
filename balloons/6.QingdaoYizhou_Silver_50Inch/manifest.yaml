@@ -1,0 +1,51 @@
+title: QingdaoYizhou Silver 50″ 24µm
+index: '6'
+short_description: QingdaoYizhou silver 50″ 24µm — stereo + DIC inflation test
+balloon:
+  brand: QingdaoYizhou
+  model: ''
+  size_nominal: 50 inch
+  color: Silver
+  material: ''
+  material_thickness_um: 24
+  weight_g: 51.3
+  dimensions_uninflated_mm: null
+  cost_usd: null
+  lot: ''
+  supplier: ''
+  url: ''
+test:
+  date: '2026-05-22'
+  location: ''
+  temperature_c: 26.4
+  humidity_pct: 19.4
+  protocol: ''
+  pressures_psi: []
+  hold_duration_s: null
+  notes: ''
+results:
+  burst_pressure_psi: null
+  max_pressure_psi: null
+  max_diameter_in: 33.86
+  total_duration_s: 211854.0
+  plateaus_detected: null
+  max_height_in: 35.59
+  station_pressure_hpa: 885.4
+media:
+  images:
+    - PXL_20260520_233104875.jpg
+    - PXL_20260520_232008762.jpg
+    - PXL_20260520_231332511.jpg
+  burst_video: null
+  burst_video_fps: null
+conclusions: 'TODO: Add observations and conclusions.'
+methods: Stereo vision with dual cameras. FoundationStereo depth estimation. DIC subset
+  tracking on rectified images. Kabsch alignment for rigid-body removal. Green-Lagrange
+  strain via Delaunay triangulation.
+tags:
+  - qingdaoyizhou
+  - 50inch
+  - silver
+  - 24um
+  - stereo
+  - dic
