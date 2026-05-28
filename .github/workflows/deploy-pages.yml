@@ -30,7 +30,35 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Guard against oversized per-frame payload
+        # GitHub Pages caps a deployment artifact at 10 GB. The viewer/frames/
+        # and viewer/clouds/ directories grow unbounded with DIC frame count
+        # unless capped at export time. This step fails fast with a clear
+        # message if any balloon's per-frame payload exceeds 1 GB — long
+        # before we hit the 10 GB ceiling.
+        run: |
+          set -e
+          fail=0
+          limit_mb=1024
+          for dir in balloons/*/viewer/frames balloons/*/viewer/clouds; do
+            [ -d "$dir" ] || continue
+            size_mb=$(du -sm "$dir" | cut -f1)
+            if [ "$size_mb" -gt "$limit_mb" ]; then
+              echo "::error file=$dir::$dir is ${size_mb} MB (limit ${limit_mb} MB). Run scripts/prune_per_frame.py to fix."
+              fail=1
+            else
+              echo "  ok: $dir = ${size_mb} MB"
+            fi
+          done
+          total_mb=$(du -sm balloons | cut -f1)
+          echo "  total balloons/ = ${total_mb} MB"
+          if [ "$fail" -ne 0 ]; then
+            echo "::error::One or more per-frame directories exceed the size limit."
+            exit 1
+          fi
+
       - name: Upload artifact
+
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
