@@ -1,0 +1,58 @@
+title: Silver 4-Gore 70" — Stereo + DIC Burst Test
+balloon:
+  brand: 4D
+  model: 4-Gore
+  size_nominal: 70 inch
+  color: Silver
+  material: ''
+  material_thickness_um: 32
+  weight_g: 122.46
+  dimensions_uninflated_mm: null
+  cost_usd: 12.78
+  lot: ''
+  supplier: ''
+  url: ''
+test:
+  date: '2026-05-31'
+  location: ''
+  temperature_c: 23.3
+  humidity_pct: 20.6
+  protocol: ''
+  pressures_psi:
+  - 0.38
+  hold_duration_s: null
+  notes: Silver 4-gore 70" balloon. Long pressure-cycle test ~15.6 h. Burst recorded by the inflator app
+    at 0.936 PSI (per burst-metadata sensor reading) on 2026-06-01 03:01:03 UTC. Burst captured at 114.8
+    fps.
+results:
+  burst_pressure_psi: 0.936
+  max_pressure_psi: 0.38
+  max_diameter_in: 45.61
+  total_duration_s: 55926.0
+  plateaus_detected: 1
+  max_height_in: 47.52
+  station_pressure_hpa: 896.9
+media:
+  images:
+  - uninflated.jpg
+  - packaging.jpg
+  - scale.jpg
+  burst_video: null
+  burst_video_fps: null
+conclusions: 'TODO: Add your observations and conclusions.
+
+  '
+methods: 'Stereo vision with dual cameras. FoundationStereo depth estimation. Blob detection on rectified
+  images. Kabsch alignment for rigid-body removal. Green-Lagrange strain via Delaunay triangulation.
+
+  '
+tags:
+- silver
+- 70inch
+- 4-gore
+- 4d
+- burst
+- stereo
+- dic
+index: '7'
+short_description: 4D silver 4-gore 70" 32µm — stereo + DIC inflation/burst test
